@@ -20,7 +20,7 @@ def getCovarianceMatrix(normalizedData):
     transposed = np.transpose(normalizedData)
     return transposed.dot(normalizedData) / m
 
-def plotData(data, u, s, v):
+def plotOriginalData(data, u, s, v):
     plt.hold('on')
     plt.plot(data[:,0], data[:,1], 'bo')
     
@@ -31,7 +31,43 @@ def plotData(data, u, s, v):
     
     plt.axis([0.5, 6.5, 2, 8])
     plt.show()
+    plt.hold('off')
 
+def projectData(normalizedData, u, maxK):
+    projected = np.zeros((normalizedData.shape[0], maxK))
+    m = normalizedData.shape[0]
+    for k in range(maxK):
+        for i in range(m):
+            sample = normalizedData[i, :]
+            projected[i, k] = sample.dot(u[:, k])
+            
+    return projected
+
+def recoverData(projectedData, u, maxK):         
+    m = projectedData.shape[0]
+    dimensions = u.shape[0]
+    recovered = np.zeros((m, dimensions))
+    
+    for j in range(dimensions):
+        for i in range(m):
+            projectedSample = projectedData[i, :]
+            recovered[i, j] = projectedSample.dot(np.transpose(u[j, 0:maxK]))
+
+    return recovered
+
+
+def plotRecoveredData(recovered, normalized):
+    plt.hold('on')
+    plt.plot(recovered[:, 0], recovered[:, 1], 'ro')
+    diff = recovered - normalized
+    for i in range(recovered.shape[0]):
+        plt.arrow(normalized[i,0], normalized[i,1], diff[i,0], diff[i,1])
+    
+    plt.show()
+    plt.hold('off')
+    
+
+    
 
 # flow ----
 
@@ -43,7 +79,13 @@ covarianceMatrix = getCovarianceMatrix(normalizedData)
 
 u, s, v = np.linalg.svd(covarianceMatrix) # numpy giver et s-array hvor kun diagonalerne fra S-matrixen beskrevet i kurset er med
 
-plotData(data, u, s, v)
+# plotData(data, u, s, v)
+
+projectedData = projectData(normalizedData, u, maxK = 1)
+recoveredData = recoverData(projectedData, u, maxK = 1)
+
+plotRecoveredData(recoveredData, normalizedData)
+
 
 
 raw_input()
