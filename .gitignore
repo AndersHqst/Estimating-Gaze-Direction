@@ -34,5 +34,5 @@ nosetests.xml
 .project
 .pydevproject
 
-.suo
-.DS_Store
+*.suo
+*.DS_Store

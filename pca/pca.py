@@ -3,15 +3,25 @@ import scipy.io
 import matplotlib.pyplot as plt
 
 
-# functions ----
+
+def loadData1():
+    data = scipy.io.loadmat('ex7data1.mat')
+    return data['X']
+
+
+def loadFaceData():
+    data = scipy.io.loadmat('ex7faces.mat')
+    return data['X']
+
 
 def featureNormalize(data):
-    ''' Normalizes data to a mean value of 0 and a standard deviation of 1 '''
+    ''' Normalizes each feature (column) of the data to a mean value of 0 and a standard deviation of 1 '''
     mean = np.mean(data, axis = 0)
     normalized = data - mean
     variance = np.std(normalized, axis = 0)
     normalized = normalized / variance
     return normalized, mean, variance
+
 
 def getCovarianceMatrix(normalizedData):
     ''' Returns a covariance matrix, defined as (1/m)* xT * x (1 over m times x transposed x)
@@ -20,7 +30,8 @@ def getCovarianceMatrix(normalizedData):
     transposed = np.transpose(normalizedData)
     return transposed.dot(normalizedData) / m
 
-def plotOriginalData(data, u, s, v):
+
+def plotOriginalData(data, u, s, v, mean):
     plt.hold('on')
     plt.plot(data[:,0], data[:,1], 'bo')
     
@@ -33,27 +44,21 @@ def plotOriginalData(data, u, s, v):
     plt.show()
     plt.hold('off')
 
+
 def projectData(normalizedData, u, maxK):
     projected = np.zeros((normalizedData.shape[0], maxK))
     m = normalizedData.shape[0]
-    for k in range(maxK):
-        for i in range(m):
-            sample = normalizedData[i, :]
-            projected[i, k] = sample.dot(u[:, k])
-            
-    return projected
+    u = u[:, 0:maxK]
+    return normalizedData.dot(u)
 
-def recoverData(projectedData, u, maxK):         
+
+def recoverData(projectedData, u, maxK):
     m = projectedData.shape[0]
     dimensions = u.shape[0]
     recovered = np.zeros((m, dimensions))
     
-    for j in range(dimensions):
-        for i in range(m):
-            projectedSample = projectedData[i, :]
-            recovered[i, j] = projectedSample.dot(np.transpose(u[j, 0:maxK]))
-
-    return recovered
+    u = np.transpose(u[:, 0:maxK])
+    return projectedData.dot(u)
 
 
 def plotRecoveredData(recovered, normalized):
@@ -67,28 +72,61 @@ def plotRecoveredData(recovered, normalized):
     plt.hold('off')
     
 
+def runPart1():
+    ''' 2.3: 2D to 1D '''
+    data = loadData1()
+    (normalizedData, mean, variance) = featureNormalize(data)
+    
+    covarianceMatrix = getCovarianceMatrix(normalizedData)
+    
+    (u, s, v) = np.linalg.svd(covarianceMatrix) # numpy giver et s-array hvor kun diagonalerne fra S-matrixen beskrevet i kurset er med
+    plotOriginalData(data, u, s, v, mean)
+    
+    projectedData = projectData(normalizedData, u, maxK = 1)
+    recoveredData = recoverData(projectedData, u, maxK = 1)
+    plotRecoveredData(recoveredData, normalizedData)
     
 
-# flow ----
+def show100Faces(faces):
+    plt.gray()
+    display = None
+    row = None
+    index = 0
+    for r in range(10):
+        for c in range(10):
+            face = faces[index].reshape(32,32).transpose()
+            index += 1
+            if (row is None):
+                row = face
+            else:
+                row = np.concatenate((row, face), axis = 1)
+        
+        if display is None:
+            display = row
+        else:
+            display = np.concatenate((display, row), axis = 0)
+        row = None
+        
+    plt.imshow(display)
+    plt.show()
 
-data = scipy.io.loadmat('ex7data1.mat')
-data = data['X']
+runPart1()
 
-normalizedData, mean, variance = featureNormalize(data)
-covarianceMatrix = getCovarianceMatrix(normalizedData)
+# 2.4: Faces
 
-u, s, v = np.linalg.svd(covarianceMatrix) # numpy giver et s-array hvor kun diagonalerne fra S-matrixen beskrevet i kurset er med
+faces = loadFaceData()
+show100Faces(faces)
+(normalizedFaces, mean, variance) = featureNormalize(faces)
+covarianceMatrix = getCovarianceMatrix(normalizedFaces)
+(u, s, v) = np.linalg.svd(covarianceMatrix)
+show100Faces(u.transpose())
 
-# plotData(data, u, s, v)
+projectedFaces = projectData(normalizedFaces, u, maxK = 100)
+recoveredFaces = recoverData(projectedFaces, u, maxK = 100)
+recoveredFaces = recoveredFaces * variance + mean
 
-projectedData = projectData(normalizedData, u, maxK = 1)
-recoveredData = recoverData(projectedData, u, maxK = 1)
+show100Faces(recoveredFaces)
 
-plotRecoveredData(recoveredData, normalizedData)
-
-
-
-raw_input()
 
 
 
