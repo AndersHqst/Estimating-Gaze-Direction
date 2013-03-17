@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
-
+import cv2
 
 
 def loadData1():
@@ -110,22 +110,63 @@ def show100Faces(faces):
     plt.imshow(display)
     plt.show()
 
-runPart1()
+
+def updateSliderFace():
+    for i in range(10):
+        sliderValue = cv2.getTrackbarPos(str(i), "Sliders")
+        sliderFace[i] = sliderValue - 70
+
+    recoveredFace = recoverData(sliderFace, u, maxK = 100)
+    recoveredFace = recoveredFace * variance + mean
+    cv2.normalize(recoveredFace, recoveredFace, 0, 255, cv2.NORM_MINMAX)
+    recoveredFace = recoveredFace.astype('uint8').reshape((32,32)).transpose()
+
+    recoveredFace = cv2.pyrUp(recoveredFace)
+    cv2.imshow("Face", recoveredFace)
+
+    
+    
+def onSlidersChanged(object = None):
+    updateSliderFace()
+
+
+# runPart1()
+
 
 # 2.4: Faces
 
 faces = loadFaceData()
-show100Faces(faces)
+# show100Faces(faces)
+
+global mean
+global variance
+
 (normalizedFaces, mean, variance) = featureNormalize(faces)
 covarianceMatrix = getCovarianceMatrix(normalizedFaces)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
-show100Faces(u.transpose())
+# show100Faces(u.transpose())
 
 projectedFaces = projectData(normalizedFaces, u, maxK = 100)
 recoveredFaces = recoverData(projectedFaces, u, maxK = 100)
 recoveredFaces = recoveredFaces * variance + mean
 
-show100Faces(recoveredFaces)
+# show100Faces(recoveredFaces)
+
+global sliderFace
+sliderFace = projectedFaces[0]
+
+cv2.namedWindow("Sliders")
+for i in range(10):
+    cv2.createTrackbar(str(i+1), "Sliders", int(sliderFace[i]) + 70, 140, onSlidersChanged)
+
+cv2.namedWindow("Face")
+
+updateSliderFace()
+
+while True:
+    cv2.waitKey(10)
+    
+
 
 
 
