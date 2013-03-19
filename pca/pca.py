@@ -2,6 +2,9 @@ import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
 import cv2
+import os
+from eyeVideoLoader import EyeVideoLoader
+import os
 
 
 class SliderHandler:
@@ -41,6 +44,7 @@ def loadData1():
 def loadFaceData():
     data = scipy.io.loadmat('ex7faces.mat')
     return data['X']
+
 
 
 def featureNormalize(data):
@@ -138,28 +142,48 @@ def show100Faces(faces):
     plt.show()
 
 
-runPart1()
+def runPart2():
+    ''' 2.4: Faces '''
+
+    faces = loadFaceData()
+    show100Faces(faces)
+
+    (normalizedFaces, mean, variance) = featureNormalize(faces)
+    covarianceMatrix = getCovarianceMatrix(normalizedFaces)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    show100Faces(u.transpose())
+
+    projectedFaces = projectData(normalizedFaces, u, maxK = 100)
+    recoveredFaces = recoverData(projectedFaces, u, maxK = 100)
+    recoveredFaces = deNormalize(recoveredFaces, mean, variance)
+
+    show100Faces(recoveredFaces)
+
+    sliderFace = projectedFaces[0]
+    sliderHandler = SliderHandler(sliderFace, mean, variance)
+
+    while True:
+        cv2.waitKey(10)
 
 
-# 2.4: Faces
-
-faces = loadFaceData()
-show100Faces(faces)
-
-(normalizedFaces, mean, variance) = featureNormalize(faces)
-covarianceMatrix = getCovarianceMatrix(normalizedFaces)
-(u, s, v) = np.linalg.svd(covarianceMatrix)
-show100Faces(u.transpose())
-
-projectedFaces = projectData(normalizedFaces, u, maxK = 100)
-recoveredFaces = recoverData(projectedFaces, u, maxK = 100)
-recoveredFaces = deNormalize(recoveredFaces, mean, variance)
-
-show100Faces(recoveredFaces)
-
-sliderFace = projectedFaces[0]
-sliderHandler = SliderHandler(sliderFace, mean, variance)
+#runPart1()
+#runPart2()
 
 
-while True:
-    cv2.waitKey(10)
+loader = EyeVideoLoader()
+
+loader.processEyeVideos()
+
+
+#eyeData = loader.loadImagesFromVideo(os.path.normpath("C:/Users/David/Downloads/eyeVideo.avi"))
+#normalizedData, mean, variance = featureNormalize(eyeData)
+#covarianceMatrix = getCovarianceMatrix(normalizedData)
+#(u, s, v) = np.linalg.svd(covarianceMatrix)
+#projectedData = projectData(normalizedData, u, maxK = 100)
+#recoveredData = recoverData(projectedData, u, maxK = 100)
+#recoveredData = deNormalize(recoveredData, mean, variance)
+#sliderEye = projectedData[0]
+#sliderHandler = SliderHandler(sliderEye, mean, variance)
+
+#while True:
+#    cv2.waitKey(10)
