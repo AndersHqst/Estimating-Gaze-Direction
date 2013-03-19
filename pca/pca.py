@@ -79,17 +79,11 @@ def plotOriginalData(data, u, s, v, mean):
 
 
 def projectData(normalizedData, u, maxK):
-    projected = np.zeros((normalizedData.shape[0], maxK))
-    m = normalizedData.shape[0]
     u = u[:, 0:maxK]
     return normalizedData.dot(u)
 
 
 def recoverData(projectedData, u, maxK):
-    m = projectedData.shape[0]
-    dimensions = u.shape[0]
-    recovered = np.zeros((m, dimensions))
-    
     u = np.transpose(u[:, 0:maxK])
     return projectedData.dot(u)
 
@@ -144,24 +138,24 @@ def show100Faces(faces):
     plt.show()
 
 
-# runPart1()
+runPart1()
 
 
 # 2.4: Faces
 
 faces = loadFaceData()
-# show100Faces(faces)
+show100Faces(faces)
 
 (normalizedFaces, mean, variance) = featureNormalize(faces)
 covarianceMatrix = getCovarianceMatrix(normalizedFaces)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
-# show100Faces(u.transpose())
+show100Faces(u.transpose())
 
 projectedFaces = projectData(normalizedFaces, u, maxK = 100)
 recoveredFaces = recoverData(projectedFaces, u, maxK = 100)
 recoveredFaces = deNormalize(recoveredFaces, mean, variance)
 
-# show100Faces(recoveredFaces)
+show100Faces(recoveredFaces)
 
 sliderFace = projectedFaces[0]
 sliderHandler = SliderHandler(sliderFace, mean, variance)
