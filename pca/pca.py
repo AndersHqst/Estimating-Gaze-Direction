@@ -9,10 +9,11 @@ import os
 
 class SliderHandler:
 
-    def __init__(self, face, mean, variance):
+    def __init__(self, face, mean, variance, imageSize):
         self.face = face
         self.mean = mean
         self.variance = variance
+        self.imageSize = imageSize
 
         cv2.namedWindow("Sliders", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Face")
@@ -29,11 +30,10 @@ class SliderHandler:
         recoveredFace = recoverData(self.face, u, maxK = 100)
         recoveredFace = deNormalize(recoveredFace, self.mean, self.variance)
         cv2.normalize(recoveredFace, recoveredFace, 0, 255, cv2.NORM_MINMAX)
-        recoveredFace = recoveredFace.astype('uint8').reshape((32,32)).transpose()
+        recoveredFace = recoveredFace.astype('uint8').reshape(self.imageSize)#.transpose()
 
         recoveredFace = cv2.pyrUp(recoveredFace)
         cv2.imshow("Face", recoveredFace)
-
 
 
 def loadData1():
@@ -172,18 +172,18 @@ def runPart2():
 
 loader = EyeVideoLoader()
 
-loader.processEyeVideos()
+#loader.processEyeVideos()
 
 
-#eyeData = loader.loadImagesFromVideo(os.path.normpath("C:/Users/David/Downloads/eyeVideo.avi"))
-#normalizedData, mean, variance = featureNormalize(eyeData)
-#covarianceMatrix = getCovarianceMatrix(normalizedData)
-#(u, s, v) = np.linalg.svd(covarianceMatrix)
-#projectedData = projectData(normalizedData, u, maxK = 100)
-#recoveredData = recoverData(projectedData, u, maxK = 100)
-#recoveredData = deNormalize(recoveredData, mean, variance)
-#sliderEye = projectedData[0]
-#sliderHandler = SliderHandler(sliderEye, mean, variance)
+eyeData = loader.loadImagesFromVideo(os.path.normpath("C:/Users/David/Downloads/eyeVideo2.avi"))
+normalizedData, mean, variance = featureNormalize(eyeData)
+covarianceMatrix = getCovarianceMatrix(normalizedData)
+(u, s, v) = np.linalg.svd(covarianceMatrix)
+projectedData = projectData(normalizedData, u, maxK = 100)
+recoveredData = recoverData(projectedData, u, maxK = 100)
+recoveredData = deNormalize(recoveredData, mean, variance)
+sliderEye = projectedData[0]
+sliderHandler = SliderHandler(sliderEye, mean, variance, (30,40))
 
-#while True:
-#    cv2.waitKey(10)
+while True:
+    cv2.waitKey(10)
