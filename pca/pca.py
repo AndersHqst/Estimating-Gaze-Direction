@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 from eyeVideoLoader import EyeVideoLoader
-import os
 
 
 class SliderHandler:
