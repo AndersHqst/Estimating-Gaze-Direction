@@ -43,7 +43,7 @@ class EyeVideoLoader:
     
     def loadImagesFromVideo(self, videoPath):
         video = cv2.VideoCapture(videoPath)
-        images = None
+        images = []
 
         while (True):
             running, image = video.read()
@@ -52,12 +52,8 @@ class EyeVideoLoader:
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             image = cv2.pyrDown(image)
-            image = np.array(image)
-            image = image.reshape(1, -1) # row vector
+            images.append(image)
 
-            if images is None:
-                images = image
-            else:
-                images = np.concatenate((images, image), axis = 0)
-        
+        images = np.array(images)
+        images = images.reshape(-1, 1200)
         return images
