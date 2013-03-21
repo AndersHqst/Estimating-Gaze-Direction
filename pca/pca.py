@@ -172,10 +172,10 @@ def runPart2():
 
 loader = EyeVideoLoader()
 
-#loader.processEyeVideos()
+# loader.resizeEyeVideos()
 
+(eyeData, targets) = loader.loadDataFromVideos()
 
-eyeData = loader.loadImagesFromVideo(os.path.normpath("C:/Users/David/Downloads/eyeVideo2.avi"))
 normalizedData, mean, variance = featureNormalize(eyeData)
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
