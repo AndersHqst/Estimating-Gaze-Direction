@@ -8,11 +8,13 @@ from eyeVideoLoader import EyeVideoLoader
 
 class SliderHandler:
 
-    def __init__(self, face, mean, variance, imageSize):
+    def __init__(self, face, mean, variance, u, imageSize, maxK = 100):
         self.face = face
         self.mean = mean
         self.variance = variance
         self.imageSize = imageSize
+        self.maxK = maxK
+        self.u = u
 
         cv2.namedWindow("Sliders", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Face")
@@ -26,7 +28,7 @@ class SliderHandler:
             sliderValue = cv2.getTrackbarPos(str(i), "Sliders")
             self.face[i] = sliderValue - 70
 
-        recoveredFace = recoverData(self.face, u, maxK = 100)
+        recoveredFace = recoverData(self.face, self.u, maxK = self.maxK)
         recoveredFace = deNormalize(recoveredFace, self.mean, self.variance)
         cv2.normalize(recoveredFace, recoveredFace, 0, 255, cv2.NORM_MINMAX)
         recoveredFace = recoveredFace.astype('uint8').reshape(self.imageSize)#.transpose()
@@ -159,7 +161,7 @@ def runPart2():
     show100Faces(recoveredFaces)
 
     sliderFace = projectedFaces[0]
-    sliderHandler = SliderHandler(sliderFace, mean, variance)
+    sliderHandler = SliderHandler(sliderFace, mean, variance, u, (32,32), 100)
 
     while True:
         cv2.waitKey(10)
@@ -178,11 +180,11 @@ loader = EyeVideoLoader()
 normalizedData, mean, variance = featureNormalize(eyeData)
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
-projectedData = projectData(normalizedData, u, maxK = 100)
-recoveredData = recoverData(projectedData, u, maxK = 100)
+projectedData = projectData(normalizedData, u, maxK = 500)
+recoveredData = recoverData(projectedData, u, maxK = 500)
 recoveredData = deNormalize(recoveredData, mean, variance)
 sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean, variance, (30,40))
+sliderHandler = SliderHandler(sliderEye, mean, variance, u, (30,40), maxK = 500)
 
 while True:
     cv2.waitKey(10)
