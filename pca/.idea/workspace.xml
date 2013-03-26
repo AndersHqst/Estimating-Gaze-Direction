@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="466d8994-c052-4df9-8526-a9247e637207" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../character_recognition/character_recognizer.py" afterPath="$PROJECT_DIR$/../character_recognition/character_recognizer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eyeVideoLoader.py" afterPath="$PROJECT_DIR$/eyeVideoLoader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca.py" afterPath="$PROJECT_DIR$/pca.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/svm.py" afterPath="$PROJECT_DIR$/svm.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/workspace.xml" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pca.iws" />
@@ -12,11 +14,12 @@
     <file path="/Dummy.txt" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364293095087" ignored="false" />
     <file path="/character_recognizer.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364307964791" ignored="false" />
     <file path="/max_margin.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1363862111298" ignored="false" />
-    <file path="/eyeVideoLoader.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364294508873" ignored="false" />
+    <file path="/eyeVideoLoader.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364313851333" ignored="false" />
     <file path="/pca.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364302009159" ignored="false" />
     <file path="/SVM.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364302992773" ignored="false" />
-    <file path="/test.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364308378717" ignored="false" />
-    <file path="/main.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364308312263" ignored="false" />
+    <file path="/test.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364310444716" ignored="false" />
+    <file path="/main.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364318021930" ignored="false" />
+    <file path="/svm.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364310841312" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +39,7 @@
       <file leaf-file-name="pca.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pca.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="0" selection-start="4962" selection-end="4962" vertical-scroll-proportion="0.0">
+            <state line="183" column="0" selection-start="5273" selection-end="5273" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -45,7 +48,7 @@
       <file leaf-file-name="eyeVideoLoader.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/eyeVideoLoader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
+            <state line="46" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -425,14 +428,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pca.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="0" selection-start="4962" selection-end="4962" vertical-scroll-proportion="0.0">
+        <state line="183" column="0" selection-start="5273" selection-end="5273" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/eyeVideoLoader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.0">
+        <state line="46" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>

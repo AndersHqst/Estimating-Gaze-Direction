@@ -171,20 +171,20 @@ def runPart2():
 #runPart2()
 
 
-loader = EyeVideoLoader()
-
-#loader.resizeEyeVideos()
-
-(eyeData, targets) = loader.loadDataFromVideos()
-
-normalizedData, mean, variance = featureNormalize(eyeData)
-covarianceMatrix = getCovarianceMatrix(normalizedData)
-(u, s, v) = np.linalg.svd(covarianceMatrix)
-projectedData = projectData(normalizedData, u, maxK = 500)
-recoveredData = recoverData(projectedData, u, maxK = 500)
-recoveredData = deNormalize(recoveredData, mean, variance)
-sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean, variance, u, (30,40), maxK = 500)
-
-while True:
-    cv2.waitKey(10)
+# loader = EyeVideoLoader()
+#
+# #loader.resizeEyeVideos()
+#
+# (eyeData, targets) = loader.loadDataFromVideos()
+#
+# normalizedData, mean, variance = featureNormalize(eyeData)
+# covarianceMatrix = getCovarianceMatrix(normalizedData)
+# (u, s, v) = np.linalg.svd(covarianceMatrix)
+# projectedData = projectData(normalizedData, u, maxK = 500)
+# recoveredData = recoverData(projectedData, u, maxK = 500)
+# recoveredData = deNormalize(recoveredData, mean, variance)
+# sliderEye = projectedData[0]
+# sliderHandler = SliderHandler(sliderEye, mean, variance, u, (30,40), maxK = 500)
+#
+# while True:
+#     cv2.waitKey(10)

@@ -2,20 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/character_recognition/character_recognizer.py" afterPath="$PROJECT_DIR$/character_recognition/character_recognizer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca/eyeVideoLoader.py" afterPath="$PROJECT_DIR$/pca/eyeVideoLoader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca/main.py" afterPath="$PROJECT_DIR$/pca/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca/pca.py" afterPath="$PROJECT_DIR$/pca/pca.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca/svm.py" afterPath="$PROJECT_DIR$/pca/svm.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca/.idea/workspace.xml" afterPath="$PROJECT_DIR$/pca/.idea/workspace.xml" />
     </list>
     <ignored path="ML.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364293095086" ignored="false" />
-    <file path="/eyeVideoLoader.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364294508873" ignored="false" />
+    <file path="/eyeVideoLoader.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364313851333" ignored="false" />
     <file path="/pca.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364302009159" ignored="false" />
     <file path="/character_recognizer.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364307964790" ignored="false" />
     <file path="/SVM.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364302992773" ignored="false" />
-    <file path="/test.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364308378717" ignored="false" />
-    <file path="/main.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364308312263" ignored="false" />
+    <file path="/test.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364310444717" ignored="false" />
+    <file path="/main.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364318021930" ignored="false" />
+    <file path="/svm.py" changelist="73ea5ce9-0747-4b07-ba3b-43f42bdb8cc9" time="1364310841319" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,10 +35,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pca.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pca.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pca/pca.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="169" column="0" selection-start="4857" selection-end="4960" vertical-scroll-proportion="0.27884614">
+            <state line="104" column="4" selection-start="3099" selection-end="3099" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -43,10 +46,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="normalizer.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pca/normalizer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="118" column="31" selection-start="3540" selection-end="3540" vertical-scroll-proportion="-13.12">
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pca/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="14" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0">
+            <state line="116" column="77" selection-start="4041" selection-end="4041" vertical-scroll-proportion="0.3877551">
               <folding>
                 <element signature="e#21#38#0" expanded="true" />
               </folding>
@@ -57,7 +71,7 @@
       <file leaf-file-name="svm.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pca/svm.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="14" selection-start="50" selection-end="60" vertical-scroll-proportion="0.0">
+            <state line="14" column="14" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,10 +100,19 @@
       <file leaf-file-name="eyeVideoLoader.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pca/eyeVideoLoader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="58" selection-start="2279" selection-end="2279" vertical-scroll-proportion="0.0">
+            <state line="82" column="42" selection-start="2588" selection-end="2588" vertical-scroll-proportion="-6.84">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PCA.pyproj" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pca/PCA.pyproj">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -112,11 +135,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/pca/eyeVideoLoader.py" />
         <option value="$PROJECT_DIR$/pca/SVM.py" />
-        <option value="$PROJECT_DIR$/pca/pca.py" />
         <option value="$PROJECT_DIR$/pca/test.py" />
         <option value="$PROJECT_DIR$/character_recognition/character_recognizer.py" />
+        <option value="$PROJECT_DIR$/pca/pca.py" />
+        <option value="$PROJECT_DIR$/pca/svm.py" />
+        <option value="$PROJECT_DIR$/pca/eyeVideoLoader.py" />
         <option value="$PROJECT_DIR$/pca/main.py" />
       </list>
     </option>
@@ -216,7 +240,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.character_recognizer">
+  <component name="RunManager" selected="Python.main">
     <configuration default="false" name="pca" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -255,23 +279,6 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pca" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="ML" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pca/main.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
     <configuration default="false" name="Nosetest testRun" type="tests" factoryName="Nosetests" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -290,6 +297,23 @@
       <option name="USE_PATTERN" value="false" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="svm" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pca" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="ML" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pca/svm.py" />
+      <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -347,17 +371,37 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="4">
+    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pca" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="ML" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pca/main.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.pca" />
       <item index="1" class="java.lang.String" itemvalue="Python.character_recognizer" />
       <item index="2" class="java.lang.String" itemvalue="Python.main" />
       <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetest testRun" />
+      <item index="4" class="java.lang.String" itemvalue="Python.svm" />
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.character_recognizer" />
-        <item index="1" class="java.lang.String" itemvalue="Python.main" />
-        <item index="2" class="java.lang.String" itemvalue="Python tests.Nosetest testRun" />
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Nosetest testRun" />
+        <item index="1" class="java.lang.String" itemvalue="Python.svm" />
+        <item index="2" class="java.lang.String" itemvalue="Python.character_recognizer" />
         <item index="3" class="java.lang.String" itemvalue="Python.pca" />
       </list>
     </recent_temporary>
@@ -377,17 +421,17 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32991204" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18881686" sideWeight="0.670088" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15249267" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18881686" sideWeight="0.72140765" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32551318" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32991204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27859238" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -454,29 +498,13 @@
           <line>9</line>
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="9" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pca/eyeVideoLoader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="58" selection-start="2279" selection-end="2279" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/character_recognition/max_margin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pca/svm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="14" selection-start="50" selection-end="60" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -490,20 +518,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pca/main.py">
+    <entry file="file://$PROJECT_DIR$/pca/PCA.pyproj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="14" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#21#38#0" expanded="true" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pca/pca.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="0" selection-start="4857" selection-end="4960" vertical-scroll-proportion="0.27884614">
+        <state line="104" column="4" selection-start="3099" selection-end="3099" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pca/svm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="14" selection-start="534" selection-end="534" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pca/normalizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="31" selection-start="3540" selection-end="3540" vertical-scroll-proportion="-13.12">
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pca/eyeVideoLoader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="42" selection-start="2588" selection-end="2588" vertical-scroll-proportion="-6.84">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pca/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="116" column="77" selection-start="4041" selection-end="4041" vertical-scroll-proportion="0.3877551">
+          <folding>
+            <element signature="e#21#38#0" expanded="true" />
           </folding>
         </state>
       </provider>

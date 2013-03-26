@@ -6,11 +6,12 @@ import normalizer
 
 
 class EyeVideoLoader:
-    
 
     def __init__(self):
-        self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
-        self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (1)")
+        # self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
+        # self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (1)")
+        self.inputDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos")
+        self.resizedVideoDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos/normalized")
         self.imageSize = (80,60)
         self.data = []
         self.targets = []
