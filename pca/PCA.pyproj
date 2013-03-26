@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="eyeVideoLoader.py" />
+    <Compile Include="normalizer.py" />
     <Compile Include="pca.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
