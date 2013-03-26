@@ -2,6 +2,7 @@ __author__ = 'ahkj'
 
 from sklearn import datasets
 from sklearn import svm
+import numpy as np
 
 test = 100
 mis = 0
@@ -12,6 +13,7 @@ print 'type: ', type(digits.data[0])
 print 'type: ', type(digits.target)
 
 print 'data: ', digits.data[0]
+print 'shape: ', np.shape(digits.data[0])
 print 'target: ', digits.target
 
 clf = svm.SVC(gamma=0.0001, C=100.)
