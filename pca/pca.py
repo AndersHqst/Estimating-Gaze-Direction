@@ -173,7 +173,7 @@ def runPart2():
 
 loader = EyeVideoLoader()
 
-# loader.resizeEyeVideos()
+#loader.resizeEyeVideos()
 
 (eyeData, targets) = loader.loadDataFromVideos()
 

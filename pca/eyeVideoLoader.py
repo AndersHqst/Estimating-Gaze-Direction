@@ -2,13 +2,15 @@ import numpy as np
 import cv
 import cv2
 import os
+import normalizer
+
 
 class EyeVideoLoader:
     
 
     def __init__(self):
         self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
-        self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/resized")
+        self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (1)")
         self.imageSize = (80,60)
         self.data = []
         self.targets = []
@@ -28,13 +30,17 @@ class EyeVideoLoader:
         inputPath = os.path.join(self.inputDirectory, fileName)
         outputPath = os.path.join(self.resizedVideoDirectory, fileName.replace(".mp4", ".avi"))
         
-        videoWriter = cv2.VideoWriter(outputPath, cv.CV_FOURCC('D','I','V','3'), 25.0, self.imageSize, True)
+        videoWriter = cv2.VideoWriter(outputPath, cv.CV_FOURCC('D','I','V','3'), 25.0, self.imageSize, False)
         videoReader = cv2.VideoCapture(inputPath)
 
         running, image = videoReader.read()
         while (running):
-            image = self.resizeEyeImage(image)
-            videoWriter.write(image)
+            # image = self.resizeEyeImage(image)
+            image = self.resizeAndNormalize(image)
+            if image is not None:
+                videoWriter.write(image)
+            else:
+                print "Skipping frame"
             running, image = videoReader.read()
 
         videoWriter.release()
@@ -44,6 +50,18 @@ class EyeVideoLoader:
         image = np.copy(image)
         image = cv2.resize(image, self.imageSize)
         return image
+
+
+    def resizeAndNormalize(self, image):
+        cv2.namedWindow("Threshold")
+        image = np.copy(image)
+
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        image = normalizer.normalizeImage(image)
+        if image is None:
+            return None
+        else:
+            return cv2.resize(image, self.imageSize)
 
     
     def loadDataFromVideos(self):
