@@ -1,5 +1,5 @@
 __author__ = 'ahkj'
-
+import math
 from sklearn import svm
 
 def classifier(data, targets):
@@ -13,3 +13,4 @@ def classifier(data, targets):
                   shrinking=True, tol=0.001, verbose=False)
     clf.fit(data, targets)
     return clf
+

@@ -85,8 +85,12 @@ def plotOriginalData(data, u, s, v, mean):
 
 def projectData(normalizedData, u, maxK):
     u = u[:, 0:maxK]
+    #In the Stanford video this is calculated as u transpose x (column vector).
+    #The return below is equalivant because our data
+    #has a feature per column, and not per row (row vectors).
+    #Thus, to do the same as in the video, we would have to write
+    #u transpose dot x transpose == x dot u
     return normalizedData.dot(u)
-
 
 def recoverData(projectedData, u, maxK):
     u = np.transpose(u[:, 0:maxK])
