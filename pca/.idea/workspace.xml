@@ -4,8 +4,6 @@
     <list default="true" id="466d8994-c052-4df9-8526-a9247e637207" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca.py" afterPath="$PROJECT_DIR$/pca.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/svm.py" afterPath="$PROJECT_DIR$/svm.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pca.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -13,7 +11,7 @@
     <file path="/character_recognizer.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364307964791" ignored="false" />
     <file path="/max_margin.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1363862111298" ignored="false" />
     <file path="/eyeVideoLoader.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364313851333" ignored="false" />
-    <file path="/pca.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364903355159" ignored="false" />
+    <file path="/pca.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364908900795" ignored="false" />
     <file path="/SVM.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364302992773" ignored="false" />
     <file path="/test.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364310444716" ignored="false" />
     <file path="/main.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364904717475" ignored="false" />
@@ -34,23 +32,32 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pca.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pca.py">
+      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="4" selection-start="1677" selection-end="1677" vertical-scroll-proportion="0.0">
+            <state line="8" column="14" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#21#38#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/main.py">
+      <file leaf-file-name="linalg.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/numpy-1.8.0.dev_436a28f_20120710-py2.7-macosx-10.7-x86_64.egg/numpy/linalg/linalg.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="27" selection-start="6590" selection-end="6590" vertical-scroll-proportion="0.3730887">
+            <state line="1322" column="0" selection-start="40766" selection-end="40766" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pca.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pca.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="205" column="28" selection-start="6107" selection-end="6107" vertical-scroll-proportion="0.26430517">
               <folding>
-                <element signature="e#21#38#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,8 +133,8 @@
         <option value="$PROJECT_DIR$/../character_recognition/max_margin.py" />
         <option value="$PROJECT_DIR$/../character_recognition/character_recognizer.py" />
         <option value="$PROJECT_DIR$/svm.py" />
-        <option value="$PROJECT_DIR$/pca.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/pca.py" />
       </list>
     </option>
   </component>
@@ -162,6 +169,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -182,7 +190,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -223,7 +230,9 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pca.py" />
       <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -261,28 +270,6 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="Nosetest testRun" type="tests" factoryName="Nosetests" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="pca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="testRun" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_FUNCTION" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
     <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -302,26 +289,6 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="pca" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -337,20 +304,18 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <list size="5">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.pca" />
       <item index="1" class="java.lang.String" itemvalue="Python.character_recognizer" />
       <item index="2" class="java.lang.String" itemvalue="Python.max_margin" />
-      <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetest testRun" />
-      <item index="4" class="java.lang.String" itemvalue="Python.main" />
+      <item index="3" class="java.lang.String" itemvalue="Python.main" />
     </list>
     <recent_temporary>
-      <list size="5">
+      <list size="4">
         <item index="0" class="java.lang.String" itemvalue="Python.main" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Nosetest testRun" />
+        <item index="1" class="java.lang.String" itemvalue="Python.pca" />
         <item index="2" class="java.lang.String" itemvalue="Python.max_margin" />
         <item index="3" class="java.lang.String" itemvalue="Python.character_recognizer" />
-        <item index="4" class="java.lang.String" itemvalue="Python.pca" />
       </list>
     </recent_temporary>
   </component>
@@ -409,11 +374,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994455" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19530416" sideWeight="0.67005545" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15964344" sideWeight="0.45454547" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54545456" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20745543" sideWeight="0.5982405" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3621701" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.67005545" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33431086" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40175954" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -481,21 +446,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>148</line>
-          <option name="timeStamp" value="5" />
+          <line>159</line>
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="6" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../anders_exercises/example_code/max_margin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pca.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="177" column="58" selection-start="5059" selection-end="5059" vertical-scroll-proportion="0.0">
@@ -546,6 +503,13 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/normalizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/svm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="4" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0">
@@ -567,6 +531,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/numpy-1.8.0.dev_436a28f_20120710-py2.7-macosx-10.7-x86_64.egg/numpy/linalg/linalg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1322" column="0" selection-start="40766" selection-end="40766" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/eyeVideoLoader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
@@ -574,27 +545,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/normalizer.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="8" column="14" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#21#38#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pca.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="4" selection-start="1677" selection-end="1677" vertical-scroll-proportion="0.0">
+        <state line="205" column="28" selection-start="6107" selection-end="6107" vertical-scroll-proportion="0.26430517">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="27" selection-start="6590" selection-end="6590" vertical-scroll-proportion="0.3730887">
-          <folding>
-            <element signature="e#21#38#0" expanded="true" />
           </folding>
         </state>
       </provider>

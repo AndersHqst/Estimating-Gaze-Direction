@@ -68,6 +68,29 @@ def getCovarianceMatrix(normalizedData):
     transposed = np.transpose(normalizedData)
     return transposed.dot(normalizedData) / m
 
+def kDimensionWithVaraianceRetained(data, variance):
+    '''Return the minimum k dimensions needed for retaining variance
+    :param variance: eg 0.99 for 99% variance retained
+    :param data: data
+    '''
+    k = 1
+    vars = []
+    normalized, mean, var = featureNormalize(data)
+    covMat = getCovarianceMatrix(normalized)
+    (u, s, v) = np.linalg.svd(covMat)
+    while k < len(data[0]):
+        val = 1 - sum(s[:k]) / sum(s[:len(data)])
+        vars.append(val)
+        # print 'Variance calculated: %s With k: %s' % (val, k)
+        if val < 1 - variance:
+            break
+        k += 1
+    plt.plot([x for x in range(len(vars))], vars, 'bx')
+    plt.xlabel('k')
+    plt.ylabel('Variance retained')
+    plt.show()
+    return k
+
 
 def plotOriginalData(data, u, s, v, mean):
     plt.hold('on')
@@ -175,11 +198,12 @@ def runPart2():
 #runPart2()
 
 
-# loader = EyeVideoLoader()
-#
-# #loader.resizeEyeVideos()
-#
-# (eyeData, targets) = loader.loadDataFromVideos()
+loader = EyeVideoLoader()
+
+#loader.resizeEyeVideos()
+
+(eyeData, targets) = loader.loadDataFromVideos()
+# kDimensionWithVaraianceRetained(eyeData, 0.99)
 #
 # normalizedData, mean, variance = featureNormalize(eyeData)
 # covarianceMatrix = getCovarianceMatrix(normalizedData)

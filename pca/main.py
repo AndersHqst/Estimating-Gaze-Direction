@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import time
 
 #pct of data used.
-dataSize = 0.5
+dataSize = 0.1
 #pct of data used for training, and consequently testing
 defaultTrainingSize = 0.8
 #Dimensionality reduction we use from the PCA
