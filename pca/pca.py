@@ -119,14 +119,14 @@ def runPart1():
     plotRecoveredData(recoveredData, normalizedData)
     
 
-def show100Faces(faces):
+def show100Faces(faces, size):
     plt.gray()
     display = None
     row = None
     index = 0
     for r in range(10):
         for c in range(10):
-            face = faces[index].reshape(32,32).transpose()
+            face = faces[index].reshape(size) # .transpose()
             index += 1
             if (row is None):
                 row = face
@@ -171,20 +171,21 @@ def runPart2():
 #runPart2()
 
 
-# loader = EyeVideoLoader()
-#
-# #loader.resizeEyeVideos()
-#
-# (eyeData, targets) = loader.loadDataFromVideos()
-#
-# normalizedData, mean, variance = featureNormalize(eyeData)
-# covarianceMatrix = getCovarianceMatrix(normalizedData)
-# (u, s, v) = np.linalg.svd(covarianceMatrix)
-# projectedData = projectData(normalizedData, u, maxK = 500)
-# recoveredData = recoverData(projectedData, u, maxK = 500)
-# recoveredData = deNormalize(recoveredData, mean, variance)
-# sliderEye = projectedData[0]
-# sliderHandler = SliderHandler(sliderEye, mean, variance, u, (30,40), maxK = 500)
-#
-# while True:
-#     cv2.waitKey(10)
+loader = EyeVideoLoader()
+
+# loader.resizeEyeVideos()
+
+(eyeData, targets) = loader.loadDataFromVideos()
+#show100Faces(eyeData[::80], (28,42))
+
+normalizedData, mean, variance = featureNormalize(eyeData)
+covarianceMatrix = getCovarianceMatrix(normalizedData)
+(u, s, v) = np.linalg.svd(covarianceMatrix)
+projectedData = projectData(normalizedData, u, maxK = 20)
+recoveredData = recoverData(projectedData, u, maxK = 20)
+recoveredData = deNormalize(recoveredData, mean, variance)
+sliderEye = projectedData[0]
+sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = 20)
+
+while True:
+    cv2.waitKey(10)
