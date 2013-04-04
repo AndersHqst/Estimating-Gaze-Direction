@@ -95,13 +95,6 @@ class EyeVideoLoader:
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             image = cv2.resize(image, (42,28))
 
-            #average = np.average(image)
-            mean = np.mean(image)
-            #alpha = 128 / average
-            beta = 128 - mean
-            image = cv2.convertScaleAbs(image, beta = beta)
-            #image = cv2.equalizeHist(image)
-
             self.data.append(image)
             self.targets.append(target)
 

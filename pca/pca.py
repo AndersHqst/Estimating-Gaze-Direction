@@ -50,9 +50,17 @@ def loadFaceData():
 
 def featureNormalize(data):
     ''' Normalizes each feature (column) of the data to a mean value of 0 and a standard deviation of 1 '''
-    mean = np.mean(data, axis = 0)
+    return normalize(data, axis = 0)
+
+
+def sampleNormalize(data):
+    return normalize(data, axis = 1)
+
+
+def normalize(data, axis):
+    mean = np.mean(data, axis = axis).reshape(-1, 1)
     normalized = data - mean
-    variance = np.std(normalized, axis = 0)
+    variance = np.std(normalized, axis = axis).reshape(-1, 1)
     normalized = normalized / variance
     return normalized, mean, variance
 
@@ -210,14 +218,17 @@ loader = EyeVideoLoader()
 
 #show100Faces(eyeData[::80], (28,42))
 
-normalizedData, mean, variance = featureNormalize(eyeData)
+normalizedData, mean, variance = sampleNormalize(eyeData) # featureNormalize(eyeData)
+#normalizedData = eyeData
+#mean = None
+#variance = None
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
 projectedData = projectData(normalizedData, u, maxK = 20)
 recoveredData = recoverData(projectedData, u, maxK = 20)
-recoveredData = deNormalize(recoveredData, mean, variance)
+#recoveredData = deNormalize(recoveredData, mean, variance)
 sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = 20)
+sliderHandler = SliderHandler(sliderEye, mean[0], variance[0], u, (28,42), maxK = 20)
 
 while True:
     cv2.waitKey(10)
