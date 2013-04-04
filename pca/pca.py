@@ -68,6 +68,29 @@ def getCovarianceMatrix(normalizedData):
     transposed = np.transpose(normalizedData)
     return transposed.dot(normalizedData) / m
 
+def kDimensionWithVaraianceRetained(data, variance):
+    '''Return the minimum k dimensions needed for retaining variance
+    :param variance: eg 0.99 for 99% variance retained
+    :param data: data
+    '''
+    k = 1
+    vars = []
+    normalized, mean, var = featureNormalize(data)
+    covMat = getCovarianceMatrix(normalized)
+    (u, s, v) = np.linalg.svd(covMat)
+    while k < len(data[0]):
+        val = 1 - sum(s[:k]) / sum(s[:len(data)])
+        vars.append(val)
+        # print 'Variance calculated: %s With k: %s' % (val, k)
+        if val < 1 - variance:
+            break
+        k += 1
+    plt.plot([x for x in range(len(vars))], vars, 'bx')
+    plt.xlabel('k')
+    plt.ylabel('Variance retained')
+    plt.show()
+    return k
+
 
 def plotOriginalData(data, u, s, v, mean):
     plt.hold('on')
@@ -85,8 +108,12 @@ def plotOriginalData(data, u, s, v, mean):
 
 def projectData(normalizedData, u, maxK):
     u = u[:, 0:maxK]
+    #In the Stanford video this is calculated as u transpose x (column vector).
+    #The return below is equalivant because our data
+    #has a feature per column, and not per row (row vectors).
+    #Thus, to do the same as in the video, we would have to write
+    #u transpose dot x transpose == x dot u
     return normalizedData.dot(u)
-
 
 def recoverData(projectedData, u, maxK):
     u = np.transpose(u[:, 0:maxK])
@@ -176,6 +203,11 @@ loader = EyeVideoLoader()
 # loader.resizeEyeVideos()
 
 (eyeData, targets) = loader.loadDataFromVideos()
+
+
+# kDimensionWithVaraianceRetained(eyeData, 0.99)
+#
+
 #show100Faces(eyeData[::80], (28,42))
 
 normalizedData, mean, variance = featureNormalize(eyeData)
@@ -189,3 +221,5 @@ sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = 20)
 
 while True:
     cv2.waitKey(10)
+
+
