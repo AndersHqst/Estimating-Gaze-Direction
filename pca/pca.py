@@ -60,8 +60,12 @@ def sampleNormalize(data):
 def normalize(data, axis):
     mean = np.mean(data, axis = axis).reshape(-1, 1)
     normalized = data - mean
-    variance = np.std(normalized, axis = axis).reshape(-1, 1)
-    normalized = normalized / variance
+    # We do not need to divide by the standard deviation. This is done for the sake
+    # of feature scaling, and is only relevant when varibles in our data are 'different'
+    # For images, all variables have the same scale.
+    # Andrew Ng explains it here: http://www.youtube.com/watch?v=ey2PE5xi9-A?t=43m
+    # variance = np.std(normalized, axis = axis).reshape(-1, 1)
+    # normalized = normalized / variance
     return normalized, mean, variance
 
 

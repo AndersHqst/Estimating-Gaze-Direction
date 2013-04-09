@@ -36,6 +36,3 @@ nosetests.xml
 
 *.suo
 *.DS_Store
-
-# Pycharm
-workspace.xml
