@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 import time
 
 #pct of data used.
-dataSize = 0.1
+dataSize = 1
 #pct of data used for training, and consequently testing
-defaultTrainingSize = 0.8
+trainingSize = 0.90
 #Dimensionality reduction we use from the PCA
-reducedDim = 100
+reducedDim = 20
 
 
 def predict(clf, data, targets):
@@ -26,67 +26,61 @@ def predict(clf, data, targets):
     return correct, len(data) - correct
 
 
-def runConsole(data, targets, printWithoutPCA=False):
+def runConsole(eyeData, targets, printWithoutPCA=False):
     '''Run with console output. '''
     #Samples for training
-    training = int(len(data) * defaultTrainingSize)
+    training = int(len(eyeData) * trainingSize)
     print 'training ', training
     #Samples for test
-    test = (len(data) - training)
+    test = (len(eyeData) - training)
     print 'test: ', test
 
     print 'Running with console output.\nTraining data: %s Test data: %s' % (training, test)
-    (trainingData, trainingTargets, testData, testTargets) = getTrainingAndTestSets(training, test, data, targets,
-                                                                                    reducedDim)
+
     if printWithoutPCA:
         print '\nWithout PCA: '
         t0 = time.time()
-        clf = classifier(data[:training], targets[:training])
+        clf = classifier(eyeData[:training], targets[:training])
         print 'Time learning: ', time.time() - t0
         t0 = time.time()
-        print 'Classified: %s \nMisclassified: %s' % (predict(clf, data[-test:], targets[-test:]))
+        print 'Classified: %s \nMisclassified: %s' % (predict(clf, eyeData[-test:], targets[-test:]))
         print 'Time predicting: ', time.time() - t0
+
+    normalizedData, mean, variance = featureNormalize(eyeData)
+    covarianceMatrix = getCovarianceMatrix(normalizedData)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    projectedData = projectData(normalizedData, u, maxK=reducedDim)
 
     print '\nWith PCA: '
     t0 = time.time()
-    clf = classifier(trainingData, trainingTargets)
+    clf = classifier(projectedData[:training], targets[:training])
     print 'Time learning: ', time.time() - t0
-    print 'Classified: %s \nMisclassified: %s' % predict(clf, testData, testTargets)
+    print 'Classified: %s \nMisclassified: %s' % predict(clf, projectedData[-test:], targets[-test:])
     print 'Time predicting: ', time.time() - t0
 
 
-def runErrorVersusDimension(data, targets):
+def runErrorVersusDimension(eyeData, targets):
     '''Performs several runs adjusting the dimensionality reduction. Dimension versus test error is plotted.'''
     #Size of test and training data
-    trainingSize = int(len(data) * defaultTrainingSize)
-    testSize = (len(data) - trainingSize)
+    training = int(len(eyeData) * trainingSize)
+    test = (len(eyeData) - training)
     errors = []
 
     #Normalize and do PCA
-    trainingData = data[:int(len(data) * trainingSize)]
-    trainingTargets = targets[:int(len(data) * trainingSize)]
-    testData = eyeData[-testSize:]
-    testTargets = targets[-testSize:]
-
-    trainingNormalizedData, trainingMean, std = featureNormalize(trainingData)
-    trainingCovarianceMatrix = getCovarianceMatrix(trainingNormalizedData)
-    (u1, s1, v1) = np.linalg.svd(trainingCovarianceMatrix)
-
-    testNormalizedData, testMean, std = featureNormalize(testData)
-    testCovarianceMatrix = getCovarianceMatrix(testNormalizedData)
-    (u2, s2, v2) = np.linalg.svd(testCovarianceMatrix)
+    normalizedData, mean, variance = featureNormalize(eyeData)
+    covarianceMatrix = getCovarianceMatrix(normalizedData)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
 
     #We iterate from 1 to max dimension
     dims = [x + 1 for x in range(len(eyeData[0]))]
-    dims = dims[:200]
+    dims = dims[:50]
     for x in dims:
         print 'Doing dim: ', x
-        trainingProjectedData = projectData(trainingNormalizedData, u1, maxK=x)
-        testProjectedData = projectData(testNormalizedData, u2, maxK=x)
-        clf = classifier(trainingProjectedData, trainingTargets)
-        correct, mis = predict(clf, testProjectedData, testTargets)
+        projectedData = projectData(normalizedData, u, maxK=x)
+        clf = classifier(projectedData[:training], targets[:training])
+        correct, mis = predict(clf, projectedData[-test:], targets[-test:])
         print 'Correct: %s Mis: %s' % (correct, mis)
-        errors.append(mis / float(len(testProjectedData)))
+        errors.append(mis / float(len(projectedData[-test:])))
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -99,7 +93,7 @@ def runErrorVersusDimension(data, targets):
     plt.show()
 
 
-def runErrorVersusTrainingSize(data, targets):
+def runErrorVersusTrainingSize(eyeData, targets):
     '''Performs several runs adjusting the amount of training data used and
     plots the error rate on the test data, which stays as a fixed amount.
     Error percentage is percentage of of wrong classifications over test data size
@@ -111,26 +105,24 @@ def runErrorVersusTrainingSize(data, targets):
     inSample = []
 
     #Size of test and training data
-    trainingSize = int(len(data) * pct)
-    testSize = (len(data) - trainingSize)
+    training = int(len(eyeData) * pct)
+    test = (len(eyeData) - training)
 
     #Normalize and do PCA
-    (trainingData, trainingTargets, testData, testTargets) = getTrainingAndTestSets(trainingSize,
-                                                                                    testSize,
-                                                                                    data,
-                                                                                    targets,
-                                                                                    reducedDim)
+    normalizedData, mean, variance = featureNormalize(eyeData)
+    covarianceMatrix = getCovarianceMatrix(normalizedData)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    projectedData = projectData(normalizedData, u, maxK=reducedDim)
 
     #TODO, 800 is arbitrary, I get a crash when training size gets close to 0
-    while 0 < pct and 800 < trainingSize:
-        clf = classifier(trainingData[:trainingSize], trainingTargets[:trainingSize])
-        correct, mis = predict(clf, testData, testTargets)
+    while 0 < pct and 800 < training:
+        clf = classifier(projectedData[:training], targets[:training])
+        correct, mis = predict(clf, projectedData[-test:], targets[-test:])
         # print 'Correct: %s Mis: %s' % (correct, mis)
-        # print 'Training size %s Test size: %s' % (training, test)
-        errors.append(mis / float(len(testData)))
-        inSample.append(len(trainingData[:trainingSize]))
+        errors.append(mis / float(len(projectedData[-test:])))
+        inSample.append(len(projectedData[:training]))
         pct -= decrement
-        trainingSize = int(len(data) * pct)
+        training = int(len(eyeData) * pct)
 
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -141,50 +133,13 @@ def runErrorVersusTrainingSize(data, targets):
     plt.ylabel('Error pct')
     plt.show()
 
-def getTrainingAndTestSets(trainingSize, testSize, data, targets, dim):
-    '''Returns training data, training targets, testData, testTargets
-       Training and test data will be run through PCA separately.
-    '''
-    #Do PCA on test and training data separately
-    trainingData = data[:int(len(data) * trainingSize)]
-    trainingTargets = targets[:int(len(data) * trainingSize)]
-    testData = data[-testSize:]
-    testTargets = targets[-testSize:]
-
-    trainingNormalizedData, trainingMean, trainingVariance = featureNormalize(trainingData)
-    trainingCovarianceMatrix = getCovarianceMatrix(trainingNormalizedData)
-    (u1, s1, v1) = np.linalg.svd(trainingCovarianceMatrix)
-    trainingProjectedData = projectData(trainingNormalizedData, u1, maxK=dim)
-
-    testNormalizedData, testMean, testVariance = featureNormalize(testData)
-    testCovarianceMatrix = getCovarianceMatrix(testNormalizedData)
-    (u2, s2, v2) = np.linalg.svd(testCovarianceMatrix)
-    testProjectedData = projectData(testNormalizedData, u2, maxK=dim)
-    return trainingProjectedData, trainingTargets, testProjectedData, testTargets
-
-def plotClasses(data, targets):
-    #Find one of each class
-    i = 0
-    d = {}
-    (trainingData, trainingTargets, testData, testTargets) = getTrainingAndTestSets(len(data),
-                                                                                    100,
-                                                                                    data,
-                                                                                    targets,
-                                                                                    2)
-    sym = [' ', 'ro', 'g>', 'b<', 'c.']
-    for index, trainingData in enumerate(eyeData):
-        cls = trainingTargets[index]
-        plt.plot(trainingData[0], trainingData[1], sym[cls])
-    plt.show()
 
 def testRun(eyeData, targets):
-    # Will separate training and test data itself
-    # runErrorVersusTrainingSize(eyeData, targets)
-    plotClasses(eyeData, targets)
     # runConsole(eyeData, targets)
     # runErrorVersusDimension(eyeData, targets)
+    runErrorVersusTrainingSize(eyeData, targets)
 
-#Load eye data, and reduced amount of data if specified
+
 loader = EyeVideoLoader()
 (eyeData, targets) = loader.loadDataFromVideos()
 print 'Eye data: ', len(eyeData)

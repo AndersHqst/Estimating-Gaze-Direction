@@ -3,22 +3,29 @@ import cv
 import cv2
 import os
 import normalizer
-
+import random
 
 class EyeVideoLoader:
 
     def __init__(self):
-        # self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
-        # self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (1)")
-        self.inputDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos")
-        self.resizedVideoDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos/normalized")
-        self.imageSize = (80,60)
+        self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
+        self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (2)")
+        #self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Downloads/pit/output")
+        #self.inputDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos")
+        #self.resizedVideoDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos/normalized (2)")
+        self.imageSize = (360,240)
         self.data = []
         self.targets = []
     
 
     def resizeEyeVideos(self):
+        cv2.namedWindow("Threshold")
+        cv2.namedWindow("Debug")
+
         files = os.listdir(self.inputDirectory)
+        #random.shuffle(files)
+        #files = ["E 4.mp4"]
+
         for file in files:
             self.resizeEyeVideo(file)
 
@@ -35,34 +42,27 @@ class EyeVideoLoader:
         videoReader = cv2.VideoCapture(inputPath)
 
         running, image = videoReader.read()
+        skippedFrames = 0
         while (running):
             # image = self.resizeEyeImage(image)
-            image = self.resizeAndNormalize(image)
+            image = self.normalizeImage(image)
             if image is not None:
                 videoWriter.write(image)
             else:
-                print "Skipping frame"
+                skippedFrames += 1
             running, image = videoReader.read()
 
         videoWriter.release()
+        print "Skipped frames:", skippedFrames
 
 
-    def resizeEyeImage(self, image):
-        image = np.copy(image)
-        image = cv2.resize(image, self.imageSize)
-        return image
-
-
-    def resizeAndNormalize(self, image):
-        cv2.namedWindow("Threshold")
+    def normalizeImage(self, image):
         image = np.copy(image)
 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = normalizer.normalizeImage(image)
-        if image is None:
-            return None
-        else:
-            return cv2.resize(image, self.imageSize)
+
+        return image
 
     
     def loadDataFromVideos(self):
@@ -75,7 +75,7 @@ class EyeVideoLoader:
         for file in files:
             self.loadDataFromVideo(file)
 
-        data = np.array(self.data).reshape((-1, 1200))
+        data = np.array(self.data).reshape((-1, 42*28))
         targets = np.array(self.targets)
 
         return data, targets
@@ -93,7 +93,8 @@ class EyeVideoLoader:
                 break
 
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            image = cv2.pyrDown(image)
+            image = cv2.resize(image, (42,28))
+
             self.data.append(image)
             self.targets.append(target)
 
