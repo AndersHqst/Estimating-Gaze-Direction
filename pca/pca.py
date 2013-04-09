@@ -19,12 +19,12 @@ class SliderHandler:
         cv2.namedWindow("Sliders", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Face")
 
-        for i in range(20):
-            cv2.createTrackbar(str(i+1), "Sliders", int(self.face[i]) + 70, 140, self.updateFace)
+        for i in range(maxK):
+            cv2.createTrackbar(str(i), "Sliders", int(self.face[i]) + 70, 140, self.updateFace)
         self.updateFace()
 
     def updateFace(self, dummy = None):
-        for i in range(20):
+        for i in range(self.maxK):
             sliderValue = cv2.getTrackbarPos(str(i), "Sliders")
             self.face[i] = sliderValue - 70
 
@@ -224,11 +224,12 @@ normalizedData, mean, variance = sampleNormalize(eyeData) # featureNormalize(eye
 #variance = None
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
-projectedData = projectData(normalizedData, u, maxK = 20)
-recoveredData = recoverData(projectedData, u, maxK = 20)
+k = 3
+projectedData = projectData(normalizedData, u, maxK = k)
+recoveredData = recoverData(projectedData, u, maxK = k)
 #recoveredData = deNormalize(recoveredData, mean, variance)
 sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean[0], variance[0], u, (28,42), maxK = 20)
+sliderHandler = SliderHandler(sliderEye, mean[0], variance[0], u, (28,42), maxK = k)
 
 while True:
     cv2.waitKey(10)
