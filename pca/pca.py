@@ -95,13 +95,13 @@ def kDimensionWithVaraianceRetained(data, variance):
     covMat = getCovarianceMatrix(normalized)
     (u, s, v) = np.linalg.svd(covMat)
     while k < len(data[0]):
-        val = 1 - sum(s[:k]) / sum(s[:len(data)])
+        val = sum(s[:k]) / sum(s[:len(data)])
         vars.append(val)
         # print 'Variance calculated: %s With k: %s' % (val, k)
-        if val < 1 - variance:
+        if val >= variance:
             break
         k += 1
-    plt.plot([x for x in range(len(vars))], vars, 'bx')
+    plt.plot([x for x in range(len(vars))], vars, 'b-')    
     plt.xlabel('k')
     plt.ylabel('Variance retained')
     plt.show()
@@ -253,7 +253,7 @@ eyeData = np.load('eyeData.npy')
 targets = np.load('targets.npy')
 
 
-# kDimensionWithVaraianceRetained(eyeData, 0.99)
+kDimensionWithVaraianceRetained(eyeData, 0.99)
 #
 interval = int(eyeData.shape[0] / 100)
 show100Faces(eyeData[::interval], (28,42))
