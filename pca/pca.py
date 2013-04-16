@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 from eyeVideoLoader import EyeVideoLoader
+import sys
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class SliderHandler:
@@ -58,9 +60,9 @@ def sampleNormalize(data):
 
 
 def normalize(data, axis):
-    mean = np.mean(data, axis = axis).reshape(-1, 1)
+    mean = np.mean(data, axis = axis) #.reshape(-1, 1)
     normalized = data - mean
-    variance = np.std(normalized, axis = axis).reshape(-1, 1)
+    variance = np.std(normalized, axis = axis) #.reshape(-1, 1)
     normalized = normalized / variance
     return normalized, mean, variance
 
@@ -202,34 +204,72 @@ def runPart2():
         cv2.waitKey(10)
 
 
+def plotProjectedData2D(data, targets):
+    params = ('bo', 'ro', 'go', 'yo')
+    for target in range(4):
+        ii = np.nonzero(targets == target + 1)[0]
+        plt.plot(projectedData[ii,0].flatten(),
+                 projectedData[ii,1].flatten(), 
+                 params[target])
+    plt.show()
+
+
+def plotProjectedData3D(data, targets):
+    params = ('bo', 'ro', 'go', 'yo')
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    for target in range(4):
+        ii = np.nonzero(targets == target + 1)[0]
+        ax.plot(projectedData[ii,0].flatten(),
+                projectedData[ii,1].flatten(),
+                projectedData[ii,2].flatten(),
+                params[target])
+    plt.show()
+
+
+
 #runPart1()
 #runPart2()
 
 
 loader = EyeVideoLoader()
 
+#loader.normalizeSampleImages()
+#sys.exit()
+
 # loader.resizeEyeVideos()
 
 (eyeData, targets) = loader.loadDataFromVideos()
 
+#np.save('eyeData.npy', eyeData)
+#np.save('targets.npy', targets)
+#eyeData = np.load('eyeData.npy')
+#targets = np.load('targets.npy')
+
 
 # kDimensionWithVaraianceRetained(eyeData, 0.99)
 #
+interval = int(eyeData.shape[0] / 100)
+show100Faces(eyeData[::interval], (28,42))
 
-#show100Faces(eyeData[::80], (28,42))
-
-normalizedData, mean, variance = sampleNormalize(eyeData) # featureNormalize(eyeData)
-#normalizedData = eyeData
-#mean = None
-#variance = None
+normalizedData, mean, variance = featureNormalize(eyeData) #sampleNormalize(eyeData) # 
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
-k = 3
+
+show100Faces(u.transpose(), (28,42))
+
+
+k = 20
 projectedData = projectData(normalizedData, u, maxK = k)
+plotProjectedData2D(projectedData, targets)
+
 recoveredData = recoverData(projectedData, u, maxK = k)
-#recoveredData = deNormalize(recoveredData, mean, variance)
+recoveredData = deNormalize(recoveredData, mean, variance)
+
+show100Faces(recoveredData[::interval], (28,42))
+
 sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean[0], variance[0], u, (28,42), maxK = k)
+sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = k)
 
 while True:
     cv2.waitKey(10)

@@ -17,8 +17,10 @@ def normalizeImage(image):
 
     image = cropImage(image, pupil, eyeCorners, 360, 240)
 
-    cv2.imshow("Threshold", image)
-    cv2.waitKey(1)
+    cv2.imshow("Debug", image)
+    cv2.imwrite("cropped.jpg", image)
+    cv2.waitKey(0)
+
     return image
 
 
@@ -78,8 +80,10 @@ def findTemplate(pattern, template, pupil, windowName = None):
     errors = np.sqrt(errors[0]**2 + errors[1]**2 + errors[2]**2)
 
     #if windowName is not None:
-    #    errors /= np.max(errors)
-    #    cv2.imshow(windowName, errors)
+    errorDisplay = errors / np.max(errors)
+    errorDisplay = cv2.pyrUp(errorDisplay)
+    cv2.imshow("Debug", errorDisplay)
+    cv2.waitKey(0)
 
     y, x = np.unravel_index(np.argmin(errors), errors.shape)
     
@@ -99,7 +103,7 @@ def findPupil(image):
     binaryImage = applyMorphology(binaryImage)
 
     cv2.imshow("Debug", binaryImage)
-    cv2.waitKey(1)
+    cv2.waitKey(0)
 
     contours, hierarchy = cv2.findContours(np.copy(binaryImage), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     pupil = getPupilCentre(contours, image.shape)

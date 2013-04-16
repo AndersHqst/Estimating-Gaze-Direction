@@ -16,10 +16,21 @@ class EyeVideoLoader:
         self.imageSize = (360,240)
         self.data = []
         self.targets = []
+
+
+    def normalizeSampleImages(self):
+        paths = [
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample1.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample2.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample3.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample4.png")
+                 ]
+        for path in paths:
+            image = cv2.imread(path)
+            self.normalizeImage(image)
     
 
     def resizeEyeVideos(self):
-        cv2.namedWindow("Threshold")
         cv2.namedWindow("Debug")
 
         files = os.listdir(self.inputDirectory)
@@ -58,6 +69,8 @@ class EyeVideoLoader:
 
     def normalizeImage(self, image):
         image = np.copy(image)
+
+        cv2.namedWindow("Debug")
 
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = normalizer.normalizeImage(image)
