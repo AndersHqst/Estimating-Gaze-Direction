@@ -59,6 +59,12 @@ def sampleNormalize(data):
     return normalize(data, axis = 1)
 
 
+# We do not need to divide by the standard deviation. This is done for the sake
+# of feature scaling, and is only relevant when varibles in our data are 'different'
+# For images, all variables have the same scale.
+# Andrew Ng explains it here: http://www.youtube.com/watch?v=ey2PE5xi9-A?t=43m
+# (couldn't get it to work without it so I'll leave it in for now)
+
 def normalize(data, axis):
     mean = np.mean(data, axis = axis) #.reshape(-1, 1)
     normalized = data - mean
@@ -239,12 +245,12 @@ loader = EyeVideoLoader()
 
 # loader.resizeEyeVideos()
 
-(eyeData, targets) = loader.loadDataFromVideos()
+# (eyeData, targets) = loader.loadDataFromVideos()
 
 #np.save('eyeData.npy', eyeData)
 #np.save('targets.npy', targets)
-#eyeData = np.load('eyeData.npy')
-#targets = np.load('targets.npy')
+eyeData = np.load('eyeData.npy')
+targets = np.load('targets.npy')
 
 
 # kDimensionWithVaraianceRetained(eyeData, 0.99)
@@ -253,6 +259,7 @@ interval = int(eyeData.shape[0] / 100)
 show100Faces(eyeData[::interval], (28,42))
 
 normalizedData, mean, variance = featureNormalize(eyeData) #sampleNormalize(eyeData) # 
+
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
 
