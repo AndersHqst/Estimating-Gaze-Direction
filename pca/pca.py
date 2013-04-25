@@ -258,12 +258,14 @@ loader = EyeVideoLoader()
 
 # loader.resizeEyeVideos()
 
-# (eyeData, targets) = loader.loadDataFromVideos()
+#(eyeData, targets, people) = loader.loadDataFromVideos()
 
 #np.save('eyeData.npy', eyeData)
 #np.save('targets.npy', targets)
+#np.save('people.npy', people)
 eyeData = np.load('eyeData.npy')
 targets = np.load('targets.npy')
+people = np.load('people.npy')
 
 
 #k = kDimensionWithVaraianceRetained(eyeData, 0.99)
