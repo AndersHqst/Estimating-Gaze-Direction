@@ -25,6 +25,7 @@
     <Compile Include="eyeVideoLoader.py" />
     <Compile Include="normalizer.py" />
     <Compile Include="pca.py" />
+    <Compile Include="svm.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>
