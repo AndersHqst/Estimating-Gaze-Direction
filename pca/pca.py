@@ -10,25 +10,27 @@ from mpl_toolkits.mplot3d import Axes3D
 
 class SliderHandler:
 
-    def __init__(self, face, mean, variance, u, imageSize, maxK = 100):
+    def __init__(self, face, mean, variance, u, imageSize, maxK = 100, minValue = -70, maxValue = 70):
         self.face = face
         self.mean = mean
         self.variance = variance
         self.imageSize = imageSize
         self.maxK = maxK
         self.u = u
+        self.minValue = minValue
+        self.maxValue = maxValue
 
         cv2.namedWindow("Sliders", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Face")
 
         for i in range(maxK):
-            cv2.createTrackbar(str(i), "Sliders", int(self.face[i]) + 70, 140, self.updateFace)
+            cv2.createTrackbar(str(i), "Sliders", int(self.face[i]) - minValue, maxValue - minValue, self.updateFace)
         self.updateFace()
 
     def updateFace(self, dummy = None):
         for i in range(self.maxK):
             sliderValue = cv2.getTrackbarPos(str(i), "Sliders")
-            self.face[i] = sliderValue - 70
+            self.face[i] = sliderValue + minValue
 
         recoveredFace = recoverData(self.face, self.u, maxK = self.maxK)
         recoveredFace = deNormalize(recoveredFace, self.mean, self.variance)
@@ -50,9 +52,9 @@ def loadFaceData():
 
 
 
-def featureNormalize(data):
+def featureNormalize(data, doScale = False):
     ''' Normalizes each feature (column) of the data to a mean value of 0 and a standard deviation of 1 '''
-    return normalize(data, axis = 0)
+    return normalize(data, axis = 0, doScale = doScale)
 
 
 def sampleNormalize(data):
@@ -63,13 +65,14 @@ def sampleNormalize(data):
 # of feature scaling, and is only relevant when varibles in our data are 'different'
 # For images, all variables have the same scale.
 # Andrew Ng explains it here: http://www.youtube.com/watch?v=ey2PE5xi9-A?t=43m
-# (couldn't get it to work without it so I'll leave it in for now)
-
-def normalize(data, axis):
+def normalize(data, axis, doScale):
     mean = np.mean(data, axis = axis) #.reshape(-1, 1)
     normalized = data - mean
-    variance = np.std(normalized, axis = axis) #.reshape(-1, 1)
-    normalized = normalized / variance
+    if doScale:
+        variance = np.std(normalized, axis = axis) #.reshape(-1, 1)
+        normalized = normalized / variance
+    else:
+        variance = 1
     return normalized, mean, variance
 
 
@@ -131,6 +134,7 @@ def projectData(normalizedData, u, maxK):
     #u transpose dot x transpose == x dot u
     return normalizedData.dot(u)
 
+
 def recoverData(projectedData, u, maxK):
     u = np.transpose(u[:, 0:maxK])
     return projectedData.dot(u)
@@ -163,6 +167,8 @@ def runPart1():
     
 
 def show100Faces(faces, size):
+    faces = np.copy(faces)
+
     plt.gray()
     display = None
     row = None
@@ -170,6 +176,7 @@ def show100Faces(faces, size):
     for r in range(10):
         for c in range(10):
             face = faces[index].reshape(size) # .transpose()
+            cv2.normalize(face, face, 0, 255, cv2.NORM_MINMAX)
             index += 1
             if (row is None):
                 row = face
@@ -210,13 +217,19 @@ def runPart2():
         cv2.waitKey(10)
 
 
-def plotProjectedData2D(data, targets):
+def plotProjectedData2D(data, targets = None):
     params = ('bo', 'ro', 'go', 'yo')
-    for target in range(4):
-        ii = np.nonzero(targets == target + 1)[0]
-        plt.plot(projectedData[ii,0].flatten(),
-                 projectedData[ii,1].flatten(), 
-                 params[target])
+
+    if targets is None:
+        plt.plot(data[:,0].flatten(),
+                 data[:,1].flatten(), 
+                 'bo')
+    else:
+        for target in range(4):
+            ii = np.nonzero(targets == target + 1)[0]
+            plt.plot(data[ii,0].flatten(),
+                     data[ii,1].flatten(), 
+                     params[target])
     plt.show()
 
 
@@ -226,9 +239,9 @@ def plotProjectedData3D(data, targets):
     ax = fig.add_subplot(111, projection='3d')
     for target in range(4):
         ii = np.nonzero(targets == target + 1)[0]
-        ax.plot(projectedData[ii,0].flatten(),
-                projectedData[ii,1].flatten(),
-                projectedData[ii,2].flatten(),
+        ax.plot(data[ii,0].flatten(),
+                data[ii,1].flatten(),
+                data[ii,2].flatten(),
                 params[target])
     plt.show()
 
@@ -253,12 +266,12 @@ eyeData = np.load('eyeData.npy')
 targets = np.load('targets.npy')
 
 
-kDimensionWithVaraianceRetained(eyeData, 0.99)
-#
-interval = int(eyeData.shape[0] / 100)
-show100Faces(eyeData[::interval], (28,42))
+#k = kDimensionWithVaraianceRetained(eyeData, 0.99)
 
-normalizedData, mean, variance = featureNormalize(eyeData) #sampleNormalize(eyeData) # 
+interval = int(eyeData.shape[0] / 100)
+#show100Faces(eyeData[::interval], (28,42))
+
+normalizedData, mean, variance = featureNormalize(eyeData, doScale = False) #sampleNormalize(eyeData) # 
 
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
@@ -266,8 +279,10 @@ covarianceMatrix = getCovarianceMatrix(normalizedData)
 show100Faces(u.transpose(), (28,42))
 
 
-k = 20
+k = 2
 projectedData = projectData(normalizedData, u, maxK = k)
+
+
 plotProjectedData2D(projectedData, targets)
 
 recoveredData = recoverData(projectedData, u, maxK = k)
@@ -275,8 +290,30 @@ recoveredData = deNormalize(recoveredData, mean, variance)
 
 show100Faces(recoveredData[::interval], (28,42))
 
-sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = k)
+sliderEye = projectedData[4000]
+
+#projectedChanged = np.zeros((100, k), dtype = type(projectedData[0,0]))
+
+#projectedChanged[:] = projectedData[4000]
+
+#for i in range(10):
+#    projectedChanged[i*10:i*10+10, 0] = range(-70, 70, 14)
+
+
+#for i in range(10):
+#    projectedChanged[i::10, 1] = range(-70,70,14)
+
+
+#recoveredData = recoverData(projectedChanged, u, maxK = k)
+#recoveredData = deNormalize(recoveredData, mean, variance)
+
+#show100Faces(recoveredData, (28,42))
+
+#plotProjectedData2D(projectedChanged)
+
+minValue = int(np.min(projectedData))
+maxValue = int(np.max(projectedData))
+sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = k, minValue = minValue, maxValue = maxValue)
 
 while True:
     cv2.waitKey(10)
