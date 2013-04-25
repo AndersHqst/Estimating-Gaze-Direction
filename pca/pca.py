@@ -276,43 +276,44 @@ normalizedData, mean, variance = featureNormalize(eyeData, doScale = False) #sam
 covarianceMatrix = getCovarianceMatrix(normalizedData)
 (u, s, v) = np.linalg.svd(covarianceMatrix)
 
-show100Faces(u.transpose(), (28,42))
+#show100Faces(u.transpose(), (28,42))
 
 
-k = 2
+k = 6
 projectedData = projectData(normalizedData, u, maxK = k)
 
-
-plotProjectedData2D(projectedData, targets)
+#plotProjectedData2D(projectedData, targets)
 
 recoveredData = recoverData(projectedData, u, maxK = k)
 recoveredData = deNormalize(recoveredData, mean, variance)
 
-show100Faces(recoveredData[::interval], (28,42))
+#show100Faces(recoveredData[::interval], (28,42))
 
 sliderEye = projectedData[4000]
 
-#projectedChanged = np.zeros((100, k), dtype = type(projectedData[0,0]))
-
-#projectedChanged[:] = projectedData[4000]
-
-#for i in range(10):
-#    projectedChanged[i*10:i*10+10, 0] = range(-70, 70, 14)
-
-
-#for i in range(10):
-#    projectedChanged[i::10, 1] = range(-70,70,14)
-
-
-#recoveredData = recoverData(projectedChanged, u, maxK = k)
-#recoveredData = deNormalize(recoveredData, mean, variance)
-
-#show100Faces(recoveredData, (28,42))
-
-#plotProjectedData2D(projectedChanged)
+projectedChanged = np.zeros((100, k), dtype = type(projectedData[0,0]))
 
 minValue = int(np.min(projectedData))
 maxValue = int(np.max(projectedData))
+
+values = range(minValue, maxValue, 414)
+
+for i in range(10):
+    projectedChanged[i*10:i*10+10, 0] = values
+
+
+for i in range(10):
+    projectedChanged[i::10, 1] = values
+
+
+recoveredData = recoverData(projectedChanged, u, maxK = k)
+recoveredData = deNormalize(recoveredData, mean, variance)
+
+show100Faces(recoveredData, (28,42))
+
+#plotProjectedData2D(projectedChanged)
+
+
 sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = k, minValue = minValue, maxValue = maxValue)
 
 while True:
