@@ -7,6 +7,7 @@ from eyeVideoLoader import EyeVideoLoader
 import sys
 from mpl_toolkits.mplot3d import Axes3D
 import svm
+from sklearn.metrics import classification_report
 
 class SliderHandler:
 
@@ -317,11 +318,11 @@ loader = EyeVideoLoader()
 
 # loader.resizeEyeVideos()
 
-(eyeData, targets, people) = loader.loadDataFromVideos()
+#(eyeData, targets, people) = loader.loadDataFromVideos()
 
-np.save('eyeData.npy', eyeData)
-np.save('targets.npy', targets)
-np.save('people.npy', people)
+#np.save('eyeData.npy', eyeData)
+#np.save('targets.npy', targets)
+#np.save('people.npy', people)
 eyeData = np.load('eyeData.npy')
 targets = np.load('targets.npy')
 people = np.load('people.npy')
@@ -329,42 +330,52 @@ people = np.load('people.npy')
 # stuffWeDidWithAllData(eyeData, targets)
 
 
-testPerson = 0
-trainingIndices = np.nonzero(people != testPerson)
-testIndices = np.nonzero(people == testPerson)
 
-trainingData = eyeData[trainingIndices]
-trainingTargets = targets[trainingIndices]
-testData = eyeData[testIndices]
-testTargets = eyeData[testIndices]
+def validate(eyeData, people, targets, testPerson):
+    trainingIndices = np.nonzero(people != testPerson)
+    testIndices = np.nonzero(people == testPerson)
+    
+    trainingData = eyeData[trainingIndices]
+    trainingTargets = targets[trainingIndices]
+    testData = eyeData[testIndices]
+    testTargets = targets[testIndices]
+    
+    # normalize training data, get mean
+    (normalizedTraining, mean, variance) = featureNormalize(trainingData, doScale = False)
+    
+    # normalize test data with mean from above
+    normalizedTest = testData - mean
+    
+    # run PCA with some value of k to get (u,s,v) from training data
+    covarianceMatrix = getCovarianceMatrix(normalizedTraining)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    
+    # project training data & test data
+    k = 2
+    projectedTraining = projectData(normalizedTraining, u, k)
+    projectedTest = projectData(normalizedTest, u, k)
+    
+    # learn through projected training data
+    classifier = svm.classifier(projectedTraining, trainingTargets)
+    
+    # try to predict projected test data
+    testResults = classifier.predict(projectedTest)
+    
+    #correct = np.sum((testTargets-1)/2 == (testResults-1)/2) / float(len(testResults))
+    correct = np.sum(testTargets == testResults) / float(len(testResults))
 
-# normalize training data, get mean
+    print classification_report(testTargets, testResults)
 
-# normalize test data with mean from above
+    return testResults, correct
 
-# run PCA with some value of k to get (u,s,v) from training data
 
-# project training data & test data
-
-# learn through projected training data
-
-# try to predict projected test data
+for testPerson in range(np.max(people)):
+    testResults, correct = validate(eyeData, people, targets, testPerson)
+    print "Test person", testPerson, "Correct fraction", correct
 
 
 
+print "Done!"
+raw_input()
 
-
-classifier = svm.classifier(trainingData, trainingTargets)
-
-testResults = classifier.predict(testData)
-
-
-print testResults
-
-
-# normalize both data sets based on training data
-
-# do projection (k will be experimented upon)
-
-# pass on to SVM -- train with training, t
 
