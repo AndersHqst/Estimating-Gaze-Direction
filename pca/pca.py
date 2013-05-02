@@ -331,7 +331,7 @@ people = np.load('people.npy')
 
 
 
-def validate(eyeData, people, targets, testPerson):
+def validate(eyeData, people, targets, testPerson, k, C, gamma, kernel):
     trainingIndices = np.nonzero(people != testPerson)
     testIndices = np.nonzero(people == testPerson)
     
@@ -351,12 +351,11 @@ def validate(eyeData, people, targets, testPerson):
     (u, s, v) = np.linalg.svd(covarianceMatrix)
     
     # project training data & test data
-    k = 2
     projectedTraining = projectData(normalizedTraining, u, k)
     projectedTest = projectData(normalizedTest, u, k)
     
     # learn through projected training data
-    classifier = svm.classifier(projectedTraining, trainingTargets)
+    classifier = svm.classifier(projectedTraining, trainingTargets, C, gamma, kernel)
     
     # try to predict projected test data
     testResults = classifier.predict(projectedTest)
@@ -364,15 +363,29 @@ def validate(eyeData, people, targets, testPerson):
     #correct = np.sum((testTargets-1)/2 == (testResults-1)/2) / float(len(testResults))
     correct = np.sum(testTargets == testResults) / float(len(testResults))
 
-    print classification_report(testTargets, testResults)
+    #print classification_report(testTargets, testResults)
 
-    return testResults, correct
+    return correct
 
 
-for testPerson in range(np.max(people)):
-    testResults, correct = validate(eyeData, people, targets, testPerson)
-    print "Test person", testPerson, "Correct fraction", correct
+def crossValidate(eyeData, people, targets, k = 2, C = 1, gamma = 1e-8, kernel = 'rbf'):
+    results = []
 
+    for testPerson in range(np.max(people)):
+        correctFraction = validate(eyeData, people, targets, testPerson, k, C, gamma, kernel)
+        results.append(correctFraction)
+        
+    return np.average(results)
+
+i = 1
+print "round; k; C; gamma; kernel; prediction"
+for k in [2]:
+    for C in [1]:
+        for gamma in [1e-8]:
+            for kernel in ['rbf', 'linear']:
+                correctFraction = crossValidate(eyeData, people, targets, k, C, gamma, kernel)
+                print i, ";", k, ";", C, ";", gamma, ";", kernel, ";", correctFraction
+                i += 1
 
 
 print "Done!"

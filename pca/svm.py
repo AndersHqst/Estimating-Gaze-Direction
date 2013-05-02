@@ -6,13 +6,13 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 
-def classifier(data, targets):
+def classifier(data, targets, C, gamma, kernel):
     '''Return a SVM that that has learned from the training data provided.
     TODO: Understand SVM parameters, and optimize with eg cross-validation
     :param data:
     :param targets:
     '''
-    clf = svm.SVC(C = 100.0, gamma = 0.0001)
+    clf = svm.SVC(C = C, gamma = gamma, kernel = kernel)
 
     #clf = svm.SVC(C=100.0, cache_size=200, class_weight=None, coef0=0.0, degree=3,
     #              gamma=0.0001, kernel='rbf', max_iter=-1, probability=False,
