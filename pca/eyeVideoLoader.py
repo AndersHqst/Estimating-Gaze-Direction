@@ -7,6 +7,7 @@ import random
 
 class EyeVideoLoader:
 
+
     def __init__(self):
         self.inputDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos")
         self.resizedVideoDirectory = os.path.normpath("C:/Users/David/Google Drev/edu 2.0/Machine Learning/project/videos/normalized (2)")
@@ -14,12 +15,29 @@ class EyeVideoLoader:
         #self.inputDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos")
         #self.resizedVideoDirectory = os.path.normpath("/Users/ahkj/Google Drev/Machine Learning/project/videos/normalized (2)")
         self.imageSize = (360,240)
+        self.resetLoadedData()
+
+    
+    def resetLoadedData(self):
         self.data = []
         self.targets = []
+        self.people = []
+        self.personIds = {}
+        self.nextPersonId = 0
+
+    def normalizeSampleImages(self):
+        paths = [
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample1.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample2.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample3.png"),
+                  os.path.normpath("C:/Users/David/Downloads/sampleimages/sample4.png")
+                 ]
+        for path in paths:
+            image = cv2.imread(path)
+            self.normalizeImage(image)
     
 
     def resizeEyeVideos(self):
-        cv2.namedWindow("Threshold")
         cv2.namedWindow("Debug")
 
         files = os.listdir(self.inputDirectory)
@@ -59,6 +77,8 @@ class EyeVideoLoader:
     def normalizeImage(self, image):
         image = np.copy(image)
 
+        cv2.namedWindow("Debug")
+
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = normalizer.normalizeImage(image)
 
@@ -66,8 +86,7 @@ class EyeVideoLoader:
 
     
     def loadDataFromVideos(self):
-        self.data = []
-        self.targets = []
+        self.resetLoadedData()
 
         files = os.listdir(self.resizedVideoDirectory)
         files = filter(lambda file: file.find(".avi") != -1, files)
@@ -77,15 +96,27 @@ class EyeVideoLoader:
 
         data = np.array(self.data).reshape((-1, 42*28))
         targets = np.array(self.targets)
+        people = np.array(self.people)
 
-        return data, targets
+        return data, targets, people
+
+    def getPersonId(self, name):
+        if not (name in self.personIds):
+            self.personIds[name] = self.nextPersonId
+            self.nextPersonId += 1
+        
+        return self.personIds[name]
+
 
     def loadDataFromVideo(self, fileName):
         print fileName
 
         videoPath = os.path.join(self.resizedVideoDirectory, fileName)
         video = cv2.VideoCapture(videoPath)
-        target = int(fileName.split('.')[0].split(' ')[1])
+        labels = fileName.split('.')[0].split(' ')
+        name = labels[0]
+        personId = self.getPersonId(name)
+        target = int(labels[1])
 
         while (True):
             running, image = video.read()
@@ -97,4 +128,5 @@ class EyeVideoLoader:
 
             self.data.append(image)
             self.targets.append(target)
+            self.people.append(personId)
 

@@ -4,29 +4,33 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 from eyeVideoLoader import EyeVideoLoader
-
+import sys
+from mpl_toolkits.mplot3d import Axes3D
+import svm
 
 class SliderHandler:
 
-    def __init__(self, face, mean, variance, u, imageSize, maxK = 100):
+    def __init__(self, face, mean, variance, u, imageSize, maxK = 100, minValue = -70, maxValue = 70):
         self.face = face
         self.mean = mean
         self.variance = variance
         self.imageSize = imageSize
         self.maxK = maxK
         self.u = u
+        self.minValue = minValue
+        self.maxValue = maxValue
 
         cv2.namedWindow("Sliders", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Face")
 
         for i in range(maxK):
-            cv2.createTrackbar(str(i), "Sliders", int(self.face[i]) + 70, 140, self.updateFace)
+            cv2.createTrackbar(str(i), "Sliders", int(self.face[i]) - minValue, maxValue - minValue, self.updateFace)
         self.updateFace()
 
     def updateFace(self, dummy = None):
         for i in range(self.maxK):
             sliderValue = cv2.getTrackbarPos(str(i), "Sliders")
-            self.face[i] = sliderValue - 70
+            self.face[i] = sliderValue + minValue
 
         recoveredFace = recoverData(self.face, self.u, maxK = self.maxK)
         recoveredFace = deNormalize(recoveredFace, self.mean, self.variance)
@@ -48,24 +52,27 @@ def loadFaceData():
 
 
 
-def featureNormalize(data):
+def featureNormalize(data, doScale = False):
     ''' Normalizes each feature (column) of the data to a mean value of 0 and a standard deviation of 1 '''
-    return normalize(data, axis = 0)
+    return normalize(data, axis = 0, doScale = doScale)
 
 
 def sampleNormalize(data):
     return normalize(data, axis = 1)
 
 
-def normalize(data, axis):
-    mean = np.mean(data, axis = axis).reshape(-1, 1)
+# We do not need to divide by the standard deviation. This is done for the sake
+# of feature scaling, and is only relevant when varibles in our data are 'different'
+# For images, all variables have the same scale.
+# Andrew Ng explains it here: http://www.youtube.com/watch?v=ey2PE5xi9-A?t=43m
+def normalize(data, axis, doScale):
+    mean = np.mean(data, axis = axis) #.reshape(-1, 1)
     normalized = data - mean
-    # We do not need to divide by the standard deviation. This is done for the sake
-    # of feature scaling, and is only relevant when varibles in our data are 'different'
-    # For images, all variables have the same scale.
-    # Andrew Ng explains it here: http://www.youtube.com/watch?v=ey2PE5xi9-A?t=43m
-    # variance = np.std(normalized, axis = axis).reshape(-1, 1)
-    # normalized = normalized / variance
+    if doScale:
+        variance = np.std(normalized, axis = axis) #.reshape(-1, 1)
+        normalized = normalized / variance
+    else:
+        variance = 1
     return normalized, mean, variance
 
 
@@ -91,13 +98,13 @@ def kDimensionWithVaraianceRetained(data, variance):
     covMat = getCovarianceMatrix(normalized)
     (u, s, v) = np.linalg.svd(covMat)
     while k < len(data[0]):
-        val = 1 - sum(s[:k]) / sum(s[:len(data)])
+        val = sum(s[:k]) / sum(s[:len(data)])
         vars.append(val)
         # print 'Variance calculated: %s With k: %s' % (val, k)
-        if val < 1 - variance:
+        if val >= variance:
             break
         k += 1
-    plt.plot([x for x in range(len(vars))], vars, 'bx')
+    plt.plot([x for x in range(len(vars))], vars, 'b-')    
     plt.xlabel('k')
     plt.ylabel('Variance retained')
     plt.show()
@@ -126,6 +133,7 @@ def projectData(normalizedData, u, maxK):
     #Thus, to do the same as in the video, we would have to write
     #u transpose dot x transpose == x dot u
     return normalizedData.dot(u)
+
 
 def recoverData(projectedData, u, maxK):
     u = np.transpose(u[:, 0:maxK])
@@ -159,6 +167,8 @@ def runPart1():
     
 
 def show100Faces(faces, size):
+    faces = np.copy(faces)
+
     plt.gray()
     display = None
     row = None
@@ -166,6 +176,7 @@ def show100Faces(faces, size):
     for r in range(10):
         for c in range(10):
             face = faces[index].reshape(size) # .transpose()
+            cv2.normalize(face, face, 0, 255, cv2.NORM_MINMAX)
             index += 1
             if (row is None):
                 row = face
@@ -206,36 +217,154 @@ def runPart2():
         cv2.waitKey(10)
 
 
+def plotProjectedData2D(data, targets = None):
+    params = ('bo', 'ro', 'go', 'yo')
+
+    if targets is None:
+        plt.plot(data[:,0].flatten(),
+                 data[:,1].flatten(), 
+                 'bo')
+    else:
+        for target in range(4):
+            ii = np.nonzero(targets == target + 1)[0]
+            plt.plot(data[ii,0].flatten(),
+                     data[ii,1].flatten(), 
+                     params[target])
+    plt.show()
+
+
+def plotProjectedData3D(data, targets):
+    params = ('bo', 'ro', 'go', 'yo')
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    for target in range(4):
+        ii = np.nonzero(targets == target + 1)[0]
+        ax.plot(data[ii,0].flatten(),
+                data[ii,1].flatten(),
+                data[ii,2].flatten(),
+                params[target])
+    plt.show()
+
+
+def stuffWeDidWithAllData(eyeData, targets):   
+
+    #k = kDimensionWithVaraianceRetained(eyeData, 0.99)
+
+    interval = int(eyeData.shape[0] / 100)
+    #show100Faces(eyeData[::interval], (28,42))
+
+    normalizedData, mean, variance = featureNormalize(eyeData, doScale = False) #sampleNormalize(eyeData) # 
+
+    covarianceMatrix = getCovarianceMatrix(normalizedData)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+
+    #show100Faces(u.transpose(), (28,42))
+
+
+    k = 6
+    projectedData = projectData(normalizedData, u, maxK = k)
+
+    #plotProjectedData2D(projectedData, targets)
+
+    recoveredData = recoverData(projectedData, u, maxK = k)
+    recoveredData = deNormalize(recoveredData, mean, variance)
+
+    #show100Faces(recoveredData[::interval], (28,42))
+
+    sliderEye = projectedData[4000]
+
+    projectedChanged = np.zeros((100, k), dtype = type(projectedData[0,0]))
+
+    minValue = int(np.min(projectedData))
+    maxValue = int(np.max(projectedData))
+
+    values = range(minValue, maxValue, 414)
+
+    for i in range(10):
+        projectedChanged[i*10:i*10+10, 0] = values
+
+
+    for i in range(10):
+        projectedChanged[i::10, 1] = values
+
+
+    recoveredData = recoverData(projectedChanged, u, maxK = k)
+    recoveredData = deNormalize(recoveredData, mean, variance)
+
+    show100Faces(recoveredData, (28,42))
+
+    #plotProjectedData2D(projectedChanged)
+
+
+    sliderHandler = SliderHandler(sliderEye, mean, variance, u, (28,42), maxK = k, minValue = minValue, maxValue = maxValue)
+
+    while True:
+        cv2.waitKey(10)
+
+
+
+
+
 #runPart1()
 #runPart2()
 
 
+
 loader = EyeVideoLoader()
+
+#loader.normalizeSampleImages()
+#sys.exit()
 
 # loader.resizeEyeVideos()
 
-(eyeData, targets) = loader.loadDataFromVideos()
+(eyeData, targets, people) = loader.loadDataFromVideos()
+
+np.save('eyeData.npy', eyeData)
+np.save('targets.npy', targets)
+np.save('people.npy', people)
+eyeData = np.load('eyeData.npy')
+targets = np.load('targets.npy')
+people = np.load('people.npy')
+
+# stuffWeDidWithAllData(eyeData, targets)
 
 
-# kDimensionWithVaraianceRetained(eyeData, 0.99)
-#
+testPerson = 0
+trainingIndices = np.nonzero(people != testPerson)
+testIndices = np.nonzero(people == testPerson)
 
-#show100Faces(eyeData[::80], (28,42))
+trainingData = eyeData[trainingIndices]
+trainingTargets = targets[trainingIndices]
+testData = eyeData[testIndices]
+testTargets = eyeData[testIndices]
 
-normalizedData, mean, variance = sampleNormalize(eyeData) # featureNormalize(eyeData)
-#normalizedData = eyeData
-#mean = None
-#variance = None
-covarianceMatrix = getCovarianceMatrix(normalizedData)
-(u, s, v) = np.linalg.svd(covarianceMatrix)
-k = 3
-projectedData = projectData(normalizedData, u, maxK = k)
-recoveredData = recoverData(projectedData, u, maxK = k)
-#recoveredData = deNormalize(recoveredData, mean, variance)
-sliderEye = projectedData[0]
-sliderHandler = SliderHandler(sliderEye, mean[0], variance[0], u, (28,42), maxK = k)
+# normalize training data, get mean
 
-while True:
-    cv2.waitKey(10)
+# normalize test data with mean from above
 
+# run PCA with some value of k to get (u,s,v) from training data
+
+# project training data & test data
+
+# learn through projected training data
+
+# try to predict projected test data
+
+
+
+
+
+classifier = svm.classifier(trainingData, trainingTargets)
+
+testResults = classifier.predict(testData)
+
+
+print testResults
+
+
+# normalize both data sets based on training data
+
+# do projection (k will be experimented upon)
+
+# pass on to SVM -- train with training, t
 
