@@ -2,24 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="466d8994-c052-4df9-8526-a9247e637207" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eyeVideoLoader.py" afterPath="$PROJECT_DIR$/eyeVideoLoader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pca.py" afterPath="$PROJECT_DIR$/pca.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/svm.py" afterPath="$PROJECT_DIR$/svm.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/workspace.xml" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../example_code/threading.py" afterPath="$PROJECT_DIR$/../example_code/threading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pca.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364293095087" ignored="false" />
+    <file path="/Dummy.txt" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1366655519920" ignored="false" />
     <file path="/character_recognizer.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364307964791" ignored="false" />
     <file path="/max_margin.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1363862111298" ignored="false" />
     <file path="/eyeVideoLoader.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364313851333" ignored="false" />
-    <file path="/pca.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364302009159" ignored="false" />
+    <file path="/pca.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1365524385858" ignored="false" />
     <file path="/SVM.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364302992773" ignored="false" />
     <file path="/test.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364310444716" ignored="false" />
     <file path="/main.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364318021930" ignored="false" />
     <file path="/svm.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1364310841312" ignored="false" />
+    <file path="$USER_HOME$/flaskr_test/flskr.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1365899395907" ignored="false" />
+    <file path="/flskr.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1365899343948" ignored="false" />
+    <file path="$USER_HOME$/flaskr/flaskr.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1365956544464" ignored="false" />
+    <file path="/flaskr.py" changelist="466d8994-c052-4df9-8526-a9247e637207" time="1365956295918" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +36,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pca.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="pca.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pca.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="183" column="0" selection-start="5273" selection-end="5273" vertical-scroll-proportion="0.0">
+            <state line="139" column="50" selection-start="4560" selection-end="4560" vertical-scroll-proportion="0.3447738">
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="113" column="47" selection-start="3873" selection-end="3894" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -48,16 +59,16 @@
       <file leaf-file-name="eyeVideoLoader.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/eyeVideoLoader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
+            <state line="55" column="0" selection-start="1922" selection-end="1922" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="character_recognizer.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="character_recognizer.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../character_recognition/character_recognizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="31" selection-start="145" selection-end="145" vertical-scroll-proportion="0.16055046">
+            <state line="9" column="31" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -90,10 +101,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/pca.py" />
         <option value="$PROJECT_DIR$/eyeVideoLoader.py" />
         <option value="$PROJECT_DIR$/../character_recognition/max_margin.py" />
         <option value="$PROJECT_DIR$/../character_recognition/character_recognizer.py" />
+        <option value="$PROJECT_DIR$/pca.py" />
       </list>
     </option>
   </component>
@@ -282,14 +293,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="774" extended-state="6" />
+    <frame x="0" y="22" width="1280" height="774" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22852512" sideWeight="0.6319648" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24473257" sideWeight="0.6319648" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -360,10 +371,19 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../anders_exercises/example_code/max_margin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pca.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="177" column="58" selection-start="5059" selection-end="5059" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -391,7 +411,9 @@
     <entry file="file://$PROJECT_DIR$/pca.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="177" column="58" selection-start="5059" selection-end="5059" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -426,23 +448,23 @@
         <state line="11" column="24" selection-start="261" selection-end="261" vertical-scroll-proportion="0.19724771" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pca.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="0" selection-start="5273" selection-end="5273" vertical-scroll-proportion="0.0">
+        <state line="113" column="47" selection-start="3873" selection-end="3894" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/eyeVideoLoader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.0">
+        <state line="55" column="0" selection-start="1922" selection-end="1922" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../character_recognition/character_recognizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="31" selection-start="145" selection-end="145" vertical-scroll-proportion="0.16055046">
+        <state line="9" column="31" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -451,6 +473,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pca.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="139" column="50" selection-start="4560" selection-end="4560" vertical-scroll-proportion="0.3447738">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

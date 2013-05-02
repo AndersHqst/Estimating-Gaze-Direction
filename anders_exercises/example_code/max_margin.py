@@ -8,8 +8,8 @@ from sklearn import svm
 
 # we create 40 separable points
 np.random.seed(0)
-X = np.r_[np.random.randn(50, 2) - [2, 2], np.random.randn(200, 2) + [2, 2]]
-Y = [0] * 50 + [1] * 200
+X = np.r_[np.random.randn(10, 2) - [2, 2], np.random.randn(10, 2) + [2, 2]]
+Y = [0] * 10 + [1] * 10
 
 # fit the model
 clf = svm.SVC(kernel='linear')
