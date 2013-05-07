@@ -1,0 +1,91 @@
+Eigenvalues:
+    Important in dynamic problems
+    We now look at Ax = lx
+    Assume alle matrices are square
+    Eigenvectors:
+        vectors x normally change direction when multiplied with A
+        Eigenvectors do not!
+            x is just scaled as an effect of being multiplied by A
+        Multiply a eigenvector x with x, and we get an x multiplied by l
+        l is the eigenvalue
+        l tells us whether x is stretched, shrunk, or stays the same when multiplied with A
+        l could be zero -> x is in the nullspace
+            Because Ax = 0, then eigenvalue must be zero Ax = lx
+        Most 2x2 matrices have two eigenvectors and two eigenvalues.
+        We will show that det(A -lI) = 0
+        By squaring A^2, the eigen vectors will keep their direction
+        Markov matrix:
+            Entries are positive, and columns add to 1
+            Guarantees that the largest eigenvalue is 1
+        Important:
+            Special properties of a matrix, lead to special eigenvalues and eigenvectors.
+
+        P, projection matrix
+            In the plane it has two eigen vectors that lie in the plane
+            One perpendicular to the plane
+            l can be 0, 1
+
+        Ax = lx <=> Ax - lx = 0 <=> (A - lI)x = 0
+            Matrix A -lI times x makes the null space of A - lI
+
+        Equation for the eigenvalue:
+            The determinant of A - lI = 0
+            l is an eigenvalue iff A - l I is singular
+
+        Find eigenvalues (page 288):
+            Subtract A- lI (lambda across diagonal)
+            Take the determinant -> get somethiing like l^2 - 5l
+            Set equal to 0 and sovle for l -> l=0 and l=5 as example
+            Solve (A - li)x = 0 for these values of l to find eigenvector x
+            A non zero solution exists if A is singular.
+            For 2x2 matrices we end up solving 2 degree equations, 3rd order for 3x3 etc
+            Algorithm for finding eigenvalues and vectors
+                Compute determinant -> polynomial
+                Solve the n roots
+                for each eigenvalue l, solve (A - lI)x = 0 to find an eigenvector
+            If we add a constant to the I vector, it is reflected in the eigenvalues, but not in the eigenvectors.
+                Eigenvalues are scaled by the same constant.
+            Note a nxn matrix will have n eigenvalues that may or may not be distinct
+                These values might by complex numbers
+            Exponent
+                A^2x = AAx = Alx =lAx = llx == l^2x
+                    -> A^n = l^nx (Important)
+
+        Trace of a matrix
+            sum of the diagonal (notice position of lambda values)
+
+        Eigenvalues, properties
+            the sum of the eigenvalues equals the trace
+            the mul of the eigenvalues equals the determinant of the matrix
+            A matrix is singular iff ..
+            see slidesm there are 10
+
+        Real eigenvalues
+            values only, not complex
+
+        The product of the eigenvalues equal the determinant
+        The sum of th n eigenvalues equal to sum of the n diagonal entries
+
+    Diagonalizing a matrix:
+        S, matrix with eigenvectors on the columns, S time big lambda
+        S^-1AS = Å , diagonalization of A
+        A and Å have the same eigenvalues
+        A^k = AÅ^kS^-1
+            We have a practical solution to find the exponent.
+            1 Find eigenvectors
+            2 Find the inverse
+            3 Multiply -> get the eksponent of A, by gettign the eksponents of the diagonal
+        A lot of work has been done to find the eigenvalues and vectors so multiplication can be done efficiently
+        If the diagonal eigenvalues are less than one, A^k approaches 0
+
+        Diagonalization -> Eigenvalues must be different, which means that the eigenvectors are independent.
+
+    Symmetric matrices A=A^T
+        Has only real eigenvalues
+        Are diagonalized, all eigenvalues are different
+        Eigenvectors can be chosen orthonormal
+
+    SVD
+        Take any mXn matrix
+        A = UDV^T
+            U, D, and V have a clear characterization of A
