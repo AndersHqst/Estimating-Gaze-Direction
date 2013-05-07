@@ -24,6 +24,7 @@ class EyeVideoLoader:
         self.people = []
         self.personIds = {}
         self.nextPersonId = 0
+        self.singleFeature = []
 
     def normalizeSampleImages(self):
         paths = [
@@ -49,6 +50,34 @@ class EyeVideoLoader:
 
         print "All done!"
         raw_input()
+
+
+    def loadSingleFeatureData(self):
+        files = os.listdir(self.inputDirectory)
+
+        for file in files:
+            self.loadSingleFeatureDataFrom(file)
+
+        return self.singleFeature
+
+
+    def loadSingleFeatureDataFrom(self, fileName):
+        print fileName
+        inputPath = os.path.join(self.inputDirectory, fileName)
+
+        videoReader = cv2.VideoCapture(inputPath)
+        running, image = videoReader.read()
+
+        while (running):
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            feature = normalizer.extractSingleFeature(image)
+            if feature is not None:
+                self.singleFeature.append(feature)
+
+            running, image = videoReader.read()
+
+
+
 
 
     def resizeEyeVideo(self, fileName):

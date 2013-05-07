@@ -320,12 +320,16 @@ loader = EyeVideoLoader()
 
 #(eyeData, targets, people) = loader.loadDataFromVideos()
 
+#singleFeature = loader.loadSingleFeatureData()
+
 #np.save('eyeData.npy', eyeData)
 #np.save('targets.npy', targets)
 #np.save('people.npy', people)
+#np.save('singleFeature.npy', singleFeature)
 eyeData = np.load('eyeData.npy')
 targets = np.load('targets.npy')
 people = np.load('people.npy')
+#singleFeature = np.load('singleFeature.npy')
 
 # stuffWeDidWithAllData(eyeData, targets)
 
@@ -360,7 +364,11 @@ def validate(eyeData, people, targets, testPerson, k, C, gamma, kernel):
     # try to predict projected test data
     testResults = classifier.predict(projectedTest)
     
+
+    # left/right classification
     #correct = np.sum((testTargets-1)/2 == (testResults-1)/2) / float(len(testResults))
+    
+    # classification among four directions
     correct = np.sum(testTargets == testResults) / float(len(testResults))
 
     #print classification_report(testTargets, testResults)
@@ -377,15 +385,61 @@ def crossValidate(eyeData, people, targets, k = 2, C = 1, gamma = 1e-8, kernel =
         
     return np.average(results)
 
-i = 1
-print "round; k; C; gamma; kernel; prediction"
-for k in [2]:
-    for C in [1]:
-        for gamma in [1e-8]:
-            for kernel in ['rbf', 'linear']:
-                correctFraction = crossValidate(eyeData, people, targets, k, C, gamma, kernel)
-                print i, ";", k, ";", C, ";", gamma, ";", kernel, ";", correctFraction
-                i += 1
+def findBestParameters():
+    i = 1
+    print "round; k; C; gamma; kernel; prediction"
+    for k in [2, 5, 14, 1176]:
+        for C in [1, 1e3, 1e5]:
+            for gamma in [1e-1,  1e-3, 1e-5]:
+                for kernel in ['rbf']:
+                    correctFraction = crossValidate(eyeData, people, targets, k, C, gamma, kernel)
+                    print i, ";", k, ";", C, ";", gamma, ";", kernel, ";", correctFraction
+                    i += 1
+
+
+eyeData = eyeData / 255.0
+findBestParameters()
+
+
+
+def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel): 
+    
+    (normalizedTraining, mean, variance) = featureNormalize(eyeData, doScale = False)
+    covarianceMatrix = getCovarianceMatrix(normalizedTraining)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    projectedTraining = projectData(normalizedTraining, u, k)
+    classifier = svm.classifier(projectedTraining, targets, C, gamma, kernel)
+        
+    xx = np.array(range(int(np.min(projectedTraining[:,0])), int(np.max(projectedTraining[:,0])), 5))
+    yy = np.array(range(int(np.min(projectedTraining[:,1])), int(np.max(projectedTraining[:,1])), 5))
+    
+    results = np.zeros((len(xx), len(yy)))
+    
+    for i,x in enumerate(xx):
+      for j,y in enumerate(yy):
+        results[i, j] = classifier.predict(np.array([[x, y]]))[0]
+
+    params = ('b,', 'r,', 'g,', 'y,')
+    params2 = ('bo', 'ro', 'go', 'yo')
+    plt.hold('on')
+
+    for target in range(4):
+        ii = np.nonzero(results == target + 1)
+        plt.plot(xx[ii[0]].flatten(),
+                 yy[ii[1]].flatten(), 
+                 params[target])
+
+
+        ii2 = np.nonzero(targets == target + 1)[0]
+        plt.plot(projectedTraining[ii2,0].flatten(),
+                 projectedTraining[ii2,1].flatten(), 
+                 params2[target])
+
+    plt.show()
+
+
+
+plotDecisionBoundary(eyeData, targets, k = 2, C = 1e6, gamma = 1e-8, kernel = 'rbf')
 
 
 print "Done!"
