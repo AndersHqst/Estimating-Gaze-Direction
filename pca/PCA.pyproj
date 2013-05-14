@@ -26,6 +26,7 @@
     <Compile Include="normalizer.py" />
     <Compile Include="pca.py" />
     <Compile Include="svm.py" />
+    <Compile Include="svm_validattion.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

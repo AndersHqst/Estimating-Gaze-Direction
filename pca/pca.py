@@ -8,6 +8,7 @@ import sys
 from mpl_toolkits.mplot3d import Axes3D
 import svm
 from sklearn.metrics import classification_report
+import time
 
 class SliderHandler:
 
@@ -360,13 +361,21 @@ def crossValidate(eyeData, people, targets, k = 2, C = 1, gamma = 1e-8, kernel =
 
 def findBestParameters():
     i = 1
-    print "round; k; C; gamma; kernel; prediction"
-    for k in [131]:
-        for C in [1e3]:
-            for gamma in [1e-3]:
+    print "round; k; C; gamma; kernel; prediction; time; support vectors"
+    for k in [2, 3, 5, 14, 29, 131, 588, None]:
+        for C in [1, 1e3, 1e5]:
+            for gamma in [1e-1, 1e-3, 1e-5]:
                 for kernel in ['rbf']:
+                    if k is None and gamma == 1e-5:
+                        continue
+                    
+                    start = time.clock()
                     correctFraction = crossValidate(eyeData, people, targets, k, C, gamma, kernel)
-                    print i, ";", k, ";", C, ";", gamma, ";", kernel, ";", correctFraction
+                    elapsed = (time.clock() - start)
+
+                    supportVectors = countSupportVectors(eyeData, targets, k, C, gamma, kernel)
+
+                    print i, ";", k, ";", C, ";", gamma, ";", kernel, ";", correctFraction, ";", elapsed, ";", supportVectors
                     i += 1
 
 
@@ -412,7 +421,8 @@ def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel):
     plt.show()
 
 
-    loader = EyeVideoLoader()
+
+
 
 
 
@@ -429,7 +439,51 @@ def plotSingleFeature(singleFeature, targets):
     plt.show()
 
 
+def debugSingleFeature(eyeData, singleFeature, targets):
+    index3 = np.nonzero(targets == 3)[0]
+    index4 = np.nonzero(targets == 4)[0]
 
+    direction3 = eyeData[index3]
+    direction4 = eyeData[index4]
+
+    feature3 = singleFeature[index3]
+    feature4 = singleFeature[index4]
+
+    worst3 = np.argmin(feature3)
+    worst4 = np.argmax(feature4)
+
+    image3 = direction3[worst3].reshape((28, 42))#.transpose()
+    image4 = direction4[worst4].reshape((28, 42))#.transpose()
+
+    image3 = cv2.pyrUp(image3)
+    image4 = cv2.pyrUp(image4)
+
+    cv2.namedWindow("singlefeature")
+
+    cv2.imshow("singlefeature", image3)
+    cv2.waitKey(0)
+    cv2.imshow("singlefeature", image4)
+    cv2.waitKey(0)
+
+
+    
+def countSupportVectors(eyeData, targets, k, C, gamma, kernel): 
+    (normalizedTraining, mean, variance) = featureNormalize(eyeData, doScale = False)
+    covarianceMatrix = getCovarianceMatrix(normalizedTraining)
+    (u, s, v) = np.linalg.svd(covarianceMatrix)
+    projectedTraining = projectData(normalizedTraining, u, k)
+    classifier = svm.classifier(projectedTraining, targets, C, gamma, kernel)
+
+    return classifier.support_vectors_.shape[0]
+
+    #print "here"
+
+
+
+loader = EyeVideoLoader()
+
+
+#loader.showFeatureLocations([2095])
 
 #loader.normalizeSampleImages()
 #sys.exit()
@@ -454,12 +508,21 @@ eyeData = eyeData / 255.0
 #runPart1()
 #runPart2()
 # stuffWeDidWithAllData(eyeData, targets)
-#findBestParameters()
-plotDecisionBoundary(eyeData, targets, k = 2, C = 1e9, gamma = 1e-5, kernel = 'rbf')
+findBestParameters()
+#plotDecisionBoundary(eyeData, targets, k = 2, C = 1e9, gamma = 1e-5, kernel = 'rbf')
+
+#plotSingleFeature(singleFeature, targets)
+
+
+#debugSingleFeature(eyeData, singleFeature, targets)
 
 
 
-plotSingleFeature(singleFeature, targets)
+# best parameters
+#showSupportVectors(eyeData, targets, k = 131, C = 1000, gamma = 1e-3, kernel = 'rbf')
+
+# best parameters for k = 2
+#countSupportVectors(eyeData, targets, k = 2, C = 1, gamma = 1e-3, kernel = 'rbf')
 
 
 
