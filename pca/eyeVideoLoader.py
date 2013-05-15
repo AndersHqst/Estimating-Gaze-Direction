@@ -76,8 +76,27 @@ class EyeVideoLoader:
 
             running, image = videoReader.read()
 
+    def showFeatureLocations(self, indices):
+        files = os.listdir(self.inputDirectory)
 
+        index = 0
 
+        for file in files:
+            print file
+            inputPath = os.path.join(self.inputDirectory, file)
+            videoReader = cv2.VideoCapture(inputPath)
+            running, image = videoReader.read()
+
+            while (running):
+                image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+                feature = normalizer.extractSingleFeature(image)
+                if feature is not None:
+                    if index in indices:
+                        normalizer.showSingleFeature(image)
+                    index += 1
+                running, image = videoReader.read()
+                
+            
 
 
     def resizeEyeVideo(self, fileName):

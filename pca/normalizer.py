@@ -37,6 +37,23 @@ def extractSingleFeature(image):
     return leftDistance / float(width)
 
 
+def showSingleFeature(image):
+    pupil = findPupil(image)
+
+    if pupil is None:
+        return None
+
+    eyeCorners = findEyeCorners(image, pupil)
+
+
+    cv2.circle(image, tuple(pupil), 8, (255,255,255), 10)
+    cv2.circle(image, tuple(eyeCorners[0]), 8, (0,0,0), 10)
+    cv2.circle(image, tuple(eyeCorners[1]), 8, (0,0,0), 10)
+
+    cv2.namedWindow("features")
+    cv2.imshow("features", image)
+    cv2.waitKey(0)
+
 
 
 def cropImage(image, pupil, eyeCorners, width, height):
