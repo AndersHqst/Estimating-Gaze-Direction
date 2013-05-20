@@ -434,7 +434,10 @@ def plotSingleFeature(singleFeature, targets):
         data.append(singleFeature[ii])
 
 
-    plt.hist(data, 15, histtype = 'bar', color = ['blue', 'red', 'green', 'yellow'], label = ['1', '2', '3', '4'])
+    plt.hist(data, 15, histtype = 'bar', color = ['blue', 'red', 'green', 'yellow'], label = ['direction 1', 'direction 2', 'direction 3', 'direction 4'])
+    plt.legend()
+    plt.xlabel('feature value')
+    plt.ylabel('number of samples')
 
     plt.show()
 
@@ -508,10 +511,10 @@ eyeData = eyeData / 255.0
 #runPart1()
 #runPart2()
 # stuffWeDidWithAllData(eyeData, targets)
-findBestParameters()
+#findBestParameters()
 #plotDecisionBoundary(eyeData, targets, k = 2, C = 1e9, gamma = 1e-5, kernel = 'rbf')
 
-#plotSingleFeature(singleFeature, targets)
+plotSingleFeature(singleFeature, targets)
 
 
 #debugSingleFeature(eyeData, singleFeature, targets)
