@@ -106,7 +106,7 @@ def kDimensionWithVaraianceRetained(data, variance):
         if val >= variance:
             break
         k += 1
-    plt.plot([x for x in range(len(vars))], vars, 'b-')
+    plt.plot([x for x in range(len(vars))], vars, 'b-')    
     plt.xlabel('k')
     plt.ylabel('Variance retained')
     plt.show()
@@ -116,12 +116,12 @@ def kDimensionWithVaraianceRetained(data, variance):
 def plotOriginalData(data, u, s, v, mean):
     plt.hold('on')
     plt.plot(data[:,0], data[:,1], 'bo')
-
+    
     p1, p2 = mean, 1.5 * s[0] * np.transpose(u[:,0]) # ved ikke lige hvad de 1.5 laver, antager det er for plottets skyld
     p3, p4 = mean, 1.5 * s[1] * np.transpose(u[:,1])
     plt.arrow(p1[0], p1[1], p2[0], p2[1])
     plt.arrow(p3[0], p3[1], p4[0], p4[1])
-
+    
     plt.axis([0.5, 6.5, 2, 8])
     plt.show()
     plt.hold('off')
@@ -148,25 +148,25 @@ def plotRecoveredData(recovered, normalized):
     diff = recovered - normalized
     for i in range(recovered.shape[0]):
         plt.arrow(normalized[i,0], normalized[i,1], diff[i,0], diff[i,1])
-
+    
     plt.show()
     plt.hold('off')
-
+    
 
 def runPart1():
     ''' 2.3: 2D to 1D '''
     data = loadData1()
     (normalizedData, mean, variance) = featureNormalize(data)
-
+    
     covarianceMatrix = getCovarianceMatrix(normalizedData)
-
+    
     (u, s, v) = np.linalg.svd(covarianceMatrix) # numpy giver et s-array hvor kun diagonalerne fra S-matrixen beskrevet i kurset er med
     plotOriginalData(data, u, s, v, mean)
-
+    
     projectedData = projectData(normalizedData, u, maxK = 1)
     recoveredData = recoverData(projectedData, u, maxK = 1)
     plotRecoveredData(recoveredData, normalizedData)
-
+    
 
 def show100Faces(faces, size):
     faces = np.copy(faces)
@@ -184,13 +184,13 @@ def show100Faces(faces, size):
                 row = face
             else:
                 row = np.concatenate((row, face), axis = 1)
-
+        
         if display is None:
             display = row
         else:
             display = np.concatenate((display, row), axis = 0)
         row = None
-
+        
     plt.imshow(display)
     plt.show()
 
@@ -224,13 +224,13 @@ def plotProjectedData2D(data, targets = None):
 
     if targets is None:
         plt.plot(data[:,0].flatten(),
-                 data[:,1].flatten(),
+                 data[:,1].flatten(), 
                  'bo')
     else:
         for target in range(4):
             ii = np.nonzero(targets == target + 1)[0]
             plt.plot(data[ii,0].flatten(),
-                     data[ii,1].flatten(),
+                     data[ii,1].flatten(), 
                      params[target])
     plt.show()
 
@@ -248,14 +248,14 @@ def plotProjectedData3D(data, targets):
     plt.show()
 
 
-def stuffWeDidWithAllData(eyeData, targets):
+def stuffWeDidWithAllData(eyeData, targets):   
 
     #k = kDimensionWithVaraianceRetained(eyeData, 0.99)
 
     interval = int(eyeData.shape[0] / 100)
     #show100Faces(eyeData[::interval], (28,42))
 
-    normalizedData, mean, variance = featureNormalize(eyeData, doScale = False) #sampleNormalize(eyeData) #
+    normalizedData, mean, variance = featureNormalize(eyeData, doScale = False) #sampleNormalize(eyeData) # 
 
     covarianceMatrix = getCovarianceMatrix(normalizedData)
     (u, s, v) = np.linalg.svd(covarianceMatrix)
@@ -307,28 +307,17 @@ def stuffWeDidWithAllData(eyeData, targets):
 def validate(eyeData, people, targets, testPerson, k, C, gamma, kernel):
     trainingIndices = np.nonzero(people != testPerson)
     testIndices = np.nonzero(people == testPerson)
-
+    
     trainingData = eyeData[trainingIndices]
     trainingTargets = targets[trainingIndices]
     testData = eyeData[testIndices]
     testTargets = targets[testIndices]
-
+    
     # normalize training data, get mean
     (normalizedTraining, mean, variance) = featureNormalize(trainingData, doScale = False)
-
+    
     # normalize test data with mean from above
     normalizedTest = testData - mean
-<<<<<<< HEAD
-
-    # run PCA with some value of k to get (u,s,v) from training data
-    covarianceMatrix = getCovarianceMatrix(normalizedTraining)
-    (u, s, v) = np.linalg.svd(covarianceMatrix)
-
-    # project training data & test data
-    projectedTraining = projectData(normalizedTraining, u, k)
-    projectedTest = projectData(normalizedTest, u, k)
-
-=======
     
     if k is None:
         projectedTraining = normalizedTraining
@@ -342,17 +331,16 @@ def validate(eyeData, people, targets, testPerson, k, C, gamma, kernel):
         projectedTraining = projectData(normalizedTraining, u, k)
         projectedTest = projectData(normalizedTest, u, k)
     
->>>>>>> dc8e28b159a8c4cf767c5162e3ed7c737bb4f127
     # learn through projected training data
     classifier = svm.classifier(projectedTraining, trainingTargets, C, gamma, kernel)
-
+    
     # try to predict projected test data
     testResults = classifier.predict(projectedTest)
-
+    
 
     # left/right classification
     #correct = np.sum((testTargets-1)/2 == (testResults-1)/2) / float(len(testResults))
-
+    
     # classification among four directions
     correct = np.sum(testTargets == testResults) / float(len(testResults))
 
@@ -367,7 +355,7 @@ def crossValidate(eyeData, people, targets, k = 2, C = 1, gamma = 1e-8, kernel =
     for testPerson in range(np.max(people)):
         correctFraction = validate(eyeData, people, targets, testPerson, k, C, gamma, kernel)
         results.append(correctFraction)
-
+        
     return np.average(results)
 
 
@@ -391,19 +379,13 @@ def findBestParameters():
                     i += 1
 
 
-def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel):
-
+def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel): 
+    
     (normalizedTraining, mean, variance) = featureNormalize(eyeData, doScale = False)
     covarianceMatrix = getCovarianceMatrix(normalizedTraining)
     (u, s, v) = np.linalg.svd(covarianceMatrix)
     projectedTraining = projectData(normalizedTraining, u, k)
     classifier = svm.classifier(projectedTraining, targets, C, gamma, kernel)
-<<<<<<< HEAD
-
-    xx = np.array(range(int(np.min(projectedTraining[:,0])), int(np.max(projectedTraining[:,0])), 5))
-    yy = np.array(range(int(np.min(projectedTraining[:,1])), int(np.max(projectedTraining[:,1])), 5))
-
-=======
         
     minx = np.min(projectedTraining[:,0])
     maxx = np.max(projectedTraining[:,0])
@@ -414,9 +396,8 @@ def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel):
     stepy = (maxy - miny) / 400.0
     yy = np.array(np.arange(miny, maxy, stepy))
     
->>>>>>> dc8e28b159a8c4cf767c5162e3ed7c737bb4f127
     results = np.zeros((len(xx), len(yy)))
-
+    
     for i,x in enumerate(xx):
       for j,y in enumerate(yy):
         results[i, j] = classifier.predict(np.array([[x, y]]))[0]
@@ -428,22 +409,19 @@ def plotDecisionBoundary(eyeData, targets, k, C, gamma, kernel):
     for target in range(4):
         ii = np.nonzero(results == target + 1)
         plt.plot(xx[ii[0]].flatten(),
-                 yy[ii[1]].flatten(),
+                 yy[ii[1]].flatten(), 
                  params[target])
 
     for target in range(4):
         ii2 = np.nonzero(targets == target + 1)[0]
         plt.plot(projectedTraining[ii2,0].flatten(),
-                 projectedTraining[ii2,1].flatten(),
+                 projectedTraining[ii2,1].flatten(), 
                  params2[target])
 
     plt.show()
 
 
 
-<<<<<<< HEAD
-# plotDecisionBoundary(eyeData, targets, k = 2, C = 1e6, gamma = 1e-8, kernel = 'rbf')
-=======
 
 
 
@@ -532,11 +510,11 @@ eyeData = eyeData / 255.0
 
 #runPart1()
 #runPart2()
-# stuffWeDidWithAllData(eyeData, targets)
+stuffWeDidWithAllData(eyeData, targets)
 #findBestParameters()
 #plotDecisionBoundary(eyeData, targets, k = 2, C = 1e9, gamma = 1e-5, kernel = 'rbf')
 
-plotSingleFeature(singleFeature, targets)
+# plotSingleFeature(singleFeature, targets)
 
 
 #debugSingleFeature(eyeData, singleFeature, targets)
@@ -549,10 +527,7 @@ plotSingleFeature(singleFeature, targets)
 # best parameters for k = 2
 #countSupportVectors(eyeData, targets, k = 2, C = 1, gamma = 1e-3, kernel = 'rbf')
 
->>>>>>> dc8e28b159a8c4cf767c5162e3ed7c737bb4f127
 
 
 print "Done!"
 raw_input()
-
-
